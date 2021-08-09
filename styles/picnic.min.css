@@ -1,0 +1,87 @@
+img {
+  border: 0
+}
+label {
+  cursor: pointer
+}
+.dropimage,
+.label,
+[data-tooltip]:after {
+  display: inline-block;
+  text-align: center;
+  letter-spacing: inherit;
+  margin: 0;
+  padding: .3em .9em;
+  vertical-align: middle;
+  color: #fff;
+  border: 0;
+  border-radius: .2em;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none
+}
+
+.label,
+[data-tooltip]:after {
+  font-size: .6em;
+  padding: .4em .6em;
+  margin-left: 1em;
+  line-height: 1
+}
+.dropimage {
+  margin: .3em 0;
+  cursor: pointer;
+  transition: all .3s;
+  border-radius: .2em;
+  height: auto;
+  vertical-align: baseline;
+  box-shadow: 0 0 transparent inset
+}
+.dropimage:focus {
+  box-shadow: inset 0 0 0 99em rgba(255, 255, 255, .2);
+  border: 0
+}
+[type=file] {
+  cursor: pointer
+}
+[type=file] {
+  height: auto
+}
+
+.dropimage {
+  position: relative;
+  display: block;
+  padding: 0;
+  padding-bottom: 80.25%;
+  overflow: hidden;
+  cursor: pointer;
+  border: 0;
+  margin: .3em 0;
+  border-radius: .2em;
+  background-color: #ddd;
+  background-size: cover;
+  background-position: center center;
+  background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2NDAiIGhlaWdodD0iNjQwIiB2ZXJzaW9uPSIxLjEiPjxnIHN0eWxlPSJmaWxsOiMzMzMiPjxwYXRoIGQ9Ik0gMTg3IDIzMCBDIDE3NSAyMzAgMTY1IDI0MCAxNjUgMjUyIEwgMTY1IDMwMCBMIDE2NSA0MDggQyAxNjUgNDIwIDE3NSA0MzAgMTg3IDQzMCBMIDQ2MyA0MzAgQyA0NzUgNDMwIDQ4NSA0MjAgNDg1IDQwOCBMIDQ4NSAzMDAgTCA0ODUgMjUyIEMgNDg1IDI0MCA0NzUgMjMwIDQ2MyAyMzAgTCAxODcgMjMwIHogTSAzNjAgMjU2IEEgNzAgNzIgMCAwIDEgNDMwIDMyOCBBIDcwIDcyIDAgMCAxIDM2MCA0MDAgQSA3MCA3MiAwIDAgMSAyOTAgMzI4IEEgNzAgNzIgMCAwIDEgMzYwIDI1NiB6Ii8+PGNpcmNsZSBjeD0iMzYwIiBjeT0iMzMwIiByPSI0MSIvPjxwYXRoIGQ9Im0yMDUgMjI1IDUtMTAgMjAgMCA1IDEwLTMwIDAiLz48cGF0aCBkPSJNMjg1IDIwMEwyNzAgMjI1IDM3NiAyMjUgMzYxIDIwMCAyODUgMjAwek0zMTAgMjA1TDMzNyAyMDUgMzM3IDIxOCAzMTAgMjE4IDMxMCAyMDV6Ii8+PHBhdGggZD0ibTQwNSAyMjUgNS0xMCAyMCAwIDUgMTAtMzAgMCIvPjwvZz48L3N2Zz4=)
+}
+.dropimage input {
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  opacity: 0;
+  cursor: pointer;
+  position: absolute
+}
+
+
+.miniprofile {
+  margin: 0 auto;        
+  width: 70%;
+  height: 10%;   
+  padding-bottom: 30%;   /* 60% height */
+}

@@ -1,5 +1,5 @@
 <?php 
-include('cms/config.php');
+include('config.php');
 $idProd 		      = $_REQUEST['idProd'];
 $nameTokenProducto    = $_REQUEST['nameTokenProducto'];
 

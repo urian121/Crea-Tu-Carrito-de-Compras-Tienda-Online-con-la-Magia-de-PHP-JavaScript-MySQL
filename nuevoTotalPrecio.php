@@ -1,5 +1,5 @@
 <?php 
-include('cms/config.php');
+include('config.php');
 $tokenCliente = $_REQUEST['tokenCliente'];
 
 $SqlDeuda =

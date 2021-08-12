@@ -1,17 +1,13 @@
 <?php
 //error_reporting(0);
 session_start();
-include('cms/config.php');
+include('config.php');
 header("Content-Type: text/html;charset=utf-8");
 if (isset($_SESSION['email']) != "") {
    $Cliente	= $_SESSION['nameFull'];
    $email   = $_SESSION['email'];
 }
 
-/*if (isset($_SESSION['privilegio']) == 'B' OR ($_SESSION['privilegio']) == '') {
-	$sesion         = isset($_SESSION['privilegio']);
-	$nombre_usuario = isset($_SESSION['nombre']);
-}*/
 ?>
 
 <!DOCTYPE html>

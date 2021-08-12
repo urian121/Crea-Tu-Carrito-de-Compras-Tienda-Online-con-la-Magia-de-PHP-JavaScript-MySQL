@@ -1,12 +1,7 @@
 <?php
 error_reporting(0);
 session_start();
-include('cms/config.php');
-header("Content-Type: text/html;charset=utf-8");
-if (isset($_SESSION['email']) != "") {
-   $Cliente	= $_SESSION['nameFull'];
-   $email   = $_SESSION['email'];
-}
+include('config.php');
 ?>
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7 " lang="en"> <![endif]-->
@@ -38,13 +33,12 @@ if (isset($_SESSION['email']) != "") {
 
 
 <div class="mt-5 pt-5">
-	<br><br><br>
+	<br><br>
 </div>
 
 <div class="container">
 
-<?php
-	if (isset($_SESSION['email']) != "") { ?>
+
 	<div class="row align-items-center">
 		<div class="col-lg-12 text-center">
 			<div class="section_title">
@@ -93,7 +87,7 @@ $queryProducts = mysqli_query($con, $sqlProducts);
 while ($dataProduct = mysqli_fetch_array($queryProducts)) { ?>
 <div class="col col-md-4 mt-5 text-center Products">
 <div class="card">
-		<img class="card-img-top" src="cms/<?php echo $dataProduct["foto1"]; ?>" alt="Card image cap">
+		<img class="card-img-top" src="<?php echo $dataProduct["foto1"]; ?>" alt="Card image cap">
 	<div class="card-body text-center">
 			<h5 class="card-title card_title"><?php echo $dataProduct['nameProd']; ?></h5>
 		<p class="card-text p_puntos">
@@ -107,33 +101,7 @@ while ($dataProduct = mysqli_fetch_array($queryProducts)) { ?>
   <?php } ?>
 </div>
 
-<!--- fin lista de productos --->
 
-<?php  }else{ ?>
-	<div class="row align-items-center">
-		<div class="col-lg-12 text-center mt-5">
-			<hr id="hrSpecial">
-		</div>
-
-
-		<div class="col-lg-12 text-center mt-5 mb-5">
-			<div class="section_title">
-				<img class="img-fluid" src="images/grooming-landing-252x300.png" alt="Groomers">
-			</div>
-		</div>
-	</div>
-
-	<div class="row align-items-center">
-		<div class="col-lg-12 text-center mb-5 pb-5">
-			<div class="section_title">
-				<p>Este espacio es reservado para nuestra familia de <strong> Groomers</strong>,
-					 si eres uno de ellos, primero ingresa a tu perfil en el apartado
-				</p>
-			</div>
-			<a href="login.php" style="color: #fe4c50 !important;" title="Entrar en mi Cuenta"> <strong> Mi Cuenta </strong></a>
-		</div>
-	</div>
-<?php } ?>
 
 
 
@@ -144,7 +112,6 @@ while ($dataProduct = mysqli_fetch_array($queryProducts)) { ?>
 </div>
 
 <script src="https://code.jquery.com/jquery-2.2.4.js"></script>
-<!--<script src="js/jquery-3.2.1.min.js"></script>--->
 <script src="styles/bootstrap4/popper.js"></script>
 <script src="styles/bootstrap4/bootstrap.min.js"></script>
 <script src="plugins/Isotope/isotope.pkgd.min.js"></script>

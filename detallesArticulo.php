@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once('cms/config.php');
+require_once('config.php');
 $idProd = isset($_POST['idProd']) ? $_POST['idProd'] : $_GET['idProd'];
 
 $sqlProducts = ("
@@ -61,15 +61,15 @@ while ($dataProduct = mysqli_fetch_array($queryProducts)) { ?>
 				<div class="col-lg-3 thumbnails_col order-lg-1 order-2">
 					<div class="single_product_thumbnails">
 						<ul>
-							<li class="hoverAnimationProduct" ><img src="cms/<?php echo $dataProduct["foto2"]; ?>" alt="" data-image="cms/<?php echo $dataProduct["foto2"]; ?>"></li>
-							<li class="active hoverAnimationProduct"><img src="cms/<?php echo $dataProduct["foto1"]; ?>" alt="" data-image="cms/<?php echo $dataProduct["foto1"]; ?>"></li>
-							<li class="hoverAnimationProduct"><img src="cms/<?php echo $dataProduct["foto3"]; ?>" alt="" data-image="cms/<?php echo $dataProduct["foto3"]; ?>"></li>
+							<li class="hoverAnimationProduct" ><img src="<?php echo $dataProduct["foto2"]; ?>" alt="" data-image="<?php echo $dataProduct["foto2"]; ?>"></li>
+							<li class="active hoverAnimationProduct"><img src="<?php echo $dataProduct["foto1"]; ?>" alt="" data-image="<?php echo $dataProduct["foto1"]; ?>"></li>
+							<li class="hoverAnimationProduct"><img src="<?php echo $dataProduct["foto3"]; ?>" alt="" data-image="<?php echo $dataProduct["foto3"]; ?>"></li>
 						</ul>
 					</div>
 				</div>
 				<div class="col-lg-9 image_col order-lg-2 order-1">
 					<div class="single_product_image">
-						<div class="single_product_image_background" style="background-image:url(cms/<?php echo $dataProduct["foto1"]; ?>)"></div>
+						<div class="single_product_image_background" style="background-image:url(<?php echo $dataProduct["foto1"]; ?>)"></div>
 					</div>
 				</div>
 			</div>

@@ -1,7 +1,7 @@
 <?php
 //error_reporting(0);
 session_start();
-require_once('cms/config.php');
+require_once('config.php');
 
 ?>
 <!DOCTYPE html>
@@ -106,7 +106,7 @@ if (isset($_SESSION['tokenStoragel']) == "") { ?>
             while ($dataMiProd = mysqli_fetch_array($jqueryMisProducts)) { ?>
                         <tr id="resp<?php echo $dataMiProd['tempId']; ?>">
                             <td>
-                                <img src="<?php echo 'cms/'.$dataMiProd["foto1"]; ?>" alt="Foto_Producto" style="width: 100px;"> 
+                                <img src="<?php echo $dataMiProd["foto1"]; ?>" alt="Foto_Producto" style="width: 100px;"> 
                             </td>
                             <td>
                                 <?php echo $dataMiProd["nameProd"]; ?>

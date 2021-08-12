@@ -35,10 +35,8 @@
 						<nav class="navbar">
 							<ul class="navbar_menu">
 								<li><a class="nav-link" href="index.php">Inicio</a></li>
-								<li><a class="nav-link" href="cliente.php">Groomers</a></li>
-								<li><a class="nav-link" href="#">Productos</a></li>
-								<li><a href="premios.php">Premios</a></li>
-								<li><a href="terminosCondiciones.php">Términos y condiciones</a></li>
+								<li><a class="nav-link" href="premios.php">Productos</a></li>
+								<li><a class="nav-link" href="#">contacto</a></li>
 							</ul>
 					<?php
 					 if (isset($_SESSION['tokenStoragel']) != "") {
@@ -100,7 +98,6 @@
 				<li class="menu_item"><a href="cliente.php">Groomers</a></li>
 				<li class="menu_item"><a href="#">Productos</a></li>
 				<li class="menu_item"><a href="premios.php">Premios</a></li>
-				<li><a href="terminosCondiciones.php">Términos y condiciones</a></li>
 			</ul>
 		</div>
 	</div>

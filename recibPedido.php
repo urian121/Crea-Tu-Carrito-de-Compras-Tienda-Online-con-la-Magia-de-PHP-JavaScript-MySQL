@@ -1,6 +1,6 @@
 <?php
 session_start();
-include('cms/config.php');
+include('config.php');
 date_default_timezone_set("America/Bogota");
 
 $_SESSION['tokenStoragel'] = $_REQUEST['tokenCliente'];

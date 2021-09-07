@@ -39,30 +39,6 @@ include('config.php');
 <div class="container">
 
 
-	<div class="row align-items-center">
-		<div class="col-lg-12 text-center">
-			<div class="section_title">
-				<h2>
-					Bienvenido Groomer 
-				</h2>
-			</div>
-		</div>
-	</div>
-
-	<div class="row align-items-center">
-		<div class="col-lg-12 text-center">
-			<div class="section_title">
-				<h4>Es tú oportunidad para ganar grandes premios</h4>
-			</div>
-		</div>
-	</div>
-	<div class="row align-items-center">
-		<div class="mt-5"></div>
-		<div class="col-lg-12 text-center">
-			<img class="img-fluid" src="images/logo-groommers.jpg" alt="">
-		</div>
-	</div>
-
 <!-----lista de Productos ---->
 <?php
 	$sqlProducts = ("

@@ -6,16 +6,7 @@
 					<div class="col-md-12">
 						<div class="top_nav_left text-right" style="line-height: 30px !important;">
 							<i class="fa fa-user" aria-hidden="true"></i>
-							<a href="login.php" id="mi_cuenta">Mi Cuenta</a>
-
-							<?php
-							if (isset($_SESSION['email']) != "") { ?>
-							<strong> ||</strong>
-							<a href="cms/CloseSesion.php" id="mi_cuenta" style="color: #fe4c50 !important;">
-								Salir
-								<i class="fas fa-power-off"></i>
-							</a>
-							<?php } ?>
+							<a href="#" id="mi_cuenta">Mi Cuenta</a>
 						</div>
 					</div>
 				</div>
@@ -82,16 +73,8 @@
 						<i class="fa fa-angle-down"></i>
 					</a>
 					<ul class="menu_selection">
-						
-					<?php
-						if (isset($_SESSION['email']) != "") { ?>
-						<li><a href="#"><?php echo $Cliente; ?></a></li>
+						<li><a href="#">Urian Viera</a></li>
 						<li><a href="CloseSesion.php">Cerrar Sesión</a></li>
-					<?php }else{ ?>
-						<li>
-							<a href="login.php">Iniciar sesión</a>
-						</li>
-					<?php } ?>
 					</ul>
 				</li>
 				<li class="menu_item"><a href="index.php">Inicio</a></li>

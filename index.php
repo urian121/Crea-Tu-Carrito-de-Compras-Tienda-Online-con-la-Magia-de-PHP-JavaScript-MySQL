@@ -4,7 +4,6 @@ session_start();
 include('config.php');
 header("Content-Type: text/html;charset=utf-8");
 if (isset($_SESSION['email']) != "") {
-   $Cliente	= $_SESSION['nameFull'];
    $email   = $_SESSION['email'];
 }
 
@@ -33,19 +32,16 @@ if (isset($_SESSION['email']) != "") {
 
 <?php include('loarder.html'); ?>
 
-<div class="super_container">
+<div class="super_container mb-5">
 	
 <?php include('header.php'); ?>
 
 
+<div class="container mt-5 pt-5">
+	<div class="row align-items-center mt-5"></div>
 
-<div class="mt-5 pt-5">
-	<br><br><br>
-</div>
-
-<div class="container">
 	<div class="row align-items-center">
-		<div class="col-lg-12 text-center mt-5">
+		<div class="col-lg-12 text-center">
 			<div class="section_title">
 				<h2>
 					Bienvenido Groomer 
@@ -63,8 +59,7 @@ if (isset($_SESSION['email']) != "") {
 	</div>
 
 	<div class="row align-items-center">
-		<div class="mt-5"></div>
-		<div class="col-lg-12 text-center mt-5">
+		<div class="col-lg-12 text-center">
 			<div class="section_title">
 				<img class="img-fluid" src="images/logo-groommers.jpg" alt="">
 			</div>
@@ -79,41 +74,6 @@ if (isset($_SESSION['email']) != "") {
 		</div>
 	</div>
 
-	<div class="row align-items-center mb-5">
-		<div class="col-lg-6 text-center">
-			<div class="section_title">
-				<p id="titleSpecial">Productos de gatos <hr></p>
-					<img class="img-fluid" src="images/produtos-gatos.jpg" alt="gatos">
-				<p>Lo mejor para tu mascota</p>
-			</div>
-			<a href="#" class="red_button btn_raza">Gatos de Raza</a>
-		</div>
-		<div class="col-lg-6 text-center">
-			<div class="section_title">
-				<p id="titleSpecial">Productos de perros<hr></p>
-					<img class="img-fluid" src="images/produtos-gatos.jpg" alt="perros">
-					<p>Lo mejor para tu mascota</p>
-			</div>
-			<a href="#" class="red_button btn_raza">Perros de Raza</a>
-		</div>
-	</div>
-
-
-	<div class="row align-items-center mt-5 pt-5">
-		<div class="col-lg-6 text-center">
-			<div class="section_title">
-				<h3>Los mejores premios para ti</h3>
-				<p>Registrate para ganar los siguientes premios, solo tienes que recomendarnos a tus clientes,
-					 registrar su compra y acumular puntos para ganar increíbles premios.
-				</p>
-			</div>
-		</div>
-		<div class="col-lg-6 text-center">
-			<div class="section_title">
-					<img class="img-fluid" src="images/gatos-home.jpg" alt="perros">	
-			</div>
-		</div>
-	</div>
 
 	<div class="row align-items-center">
 		<div class="col-lg-12 text-center mt-5">

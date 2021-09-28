@@ -17,12 +17,12 @@ if (isset($_SESSION['email']) != "") {
 <!--[if gt IE 9 | !IE]><!-->
 <html lang="es">
 <head>
-<title>Groomersacademy</title>
+<title>Tienda Online</title>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="description" content="Groomersacademy">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="icon" type="image/x-icon" href="images/favicon.png">
+<link rel="icon" type="image/x-icon" href="images/logo.jpg">
 <link rel="stylesheet" type="text/css" href="styles/bootstrap4/bootstrap.min.css">
 <link href="plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" type="text/css" href="styles/main_styles.css">
@@ -40,49 +40,74 @@ if (isset($_SESSION['email']) != "") {
 <div class="container mt-5 pt-5">
 	<div class="row align-items-center mt-5"></div>
 
-	<div class="row align-items-center">
+	<div class="row align-items-center mb-3">
 		<div class="col-lg-12 text-center">
 			<div class="section_title">
 				<h2>
-					Bienvenido Groomer 
+					Bienvenido ....
 				</h2>
 			</div>
 		</div>
 	</div>
 
-	<div class="row align-items-center">
-		<div class="col-lg-12 text-center">
-			<div class="section_title">
-				<h4>Es tú oportunidad para ganar grandes premios</h4>
-			</div>
-		</div>
-	</div>
 
 	<div class="row align-items-center">
 		<div class="col-lg-12 text-center">
 			<div class="section_title">
-				<img class="img-fluid" src="images/logo-groommers.jpg" alt="">
-			</div>
-		</div>
-	</div>
-
-	<div class="row align-items-center">
-		<div class="col-lg-12 text-center mb-5 pb-5">
-			<div class="section_title">
-				<h4>LA NUTRICIÓN PERFECTA PARA TU MASCOTA</h4>
+				<img class="img-fluid" src="images/friends-cat-dog.webp" alt="">
 			</div>
 		</div>
 	</div>
 
 
-	<div class="row align-items-center">
-		<div class="col-lg-12 text-center mt-5">
-			<div class="section_title">
-				<h2>La salud es única para cada mascota</h2>
-				<p>Formulamos nutrición a medida para ayudar a gatos y perros a tener una vida más saludable.</p>
-			</div>
+<?php
+	$sqlProducts = ("
+	SELECT 
+		prod . * ,
+		prod.id AS prodId,
+		fot . * ,
+		fot.id AS fotId 
+	FROM 
+		products AS prod,
+		fotoproducts AS fot
+	WHERE 
+		prod.id = fot.products_id
+		AND statusProduct ='1'
+		GROUP BY prod.id
+	");
+$queryProducts = mysqli_query($con, $sqlProducts);
+?>
+
+<div class="row align-items-center">
+	<div class="col-lg-12 text-center mt-5">
+		<div class="section_title">
+			<h2>La salud es única para cada mascota</h2>
+			<p>Formulamos nutrición a medida para ayudar a gatos y perros a tener una vida más saludable.</p>
 		</div>
 	</div>
+</div>
+	
+<div class="row align-items-center">
+<?php
+while ($dataProduct = mysqli_fetch_array($queryProducts)) { ?>
+<div class="col col-md-4 mt-5 text-center Products">
+<div class="card">
+		<img class="card-img-top" src="<?php echo $dataProduct["foto1"]; ?>" alt="Card image cap">
+	<div class="card-body text-center">
+			<h5 class="card-title card_title"><?php echo $dataProduct['nameProd']; ?></h5>
+		<p class="card-text p_puntos">
+			<?php echo $dataProduct['puntos']; ?> Puntos
+		</p>
+		<a href="detallesArticulo.php?idProd=<?php echo $dataProduct["prodId"]; ?>" class="red_button btn_puntos" title="Redimir mis Puntos">REDIMIR PUNTOS</a>
+	</div>
+</div>
+</div>
+
+  <?php } ?>
+</div>
+
+
+
 
 	<div class="row align-items-center">
 		<div class="col-lg-12 text-center mt-5">

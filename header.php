@@ -20,13 +20,13 @@
 					<div class="col-lg-12 text-right">
 						<div class="logo_container">
 							<a href="index.php">
-								<img src="images/logo.png" style="width: 70px;">
+								<img src="images/logo.jpg" style="width: 60px;">
 							</a>
 						</div>
 						<nav class="navbar">
 							<ul class="navbar_menu">
 								<li><a class="nav-link" href="index.php">Inicio</a></li>
-								<li><a class="nav-link" href="premios.php">Productos</a></li>
+								<li><a class="nav-link" href="#">Productos</a></li>
 								<li><a class="nav-link" href="#">contacto</a></li>
 							</ul>
 					<?php
@@ -74,13 +74,12 @@
 					</a>
 					<ul class="menu_selection">
 						<li><a href="#">Urian Viera</a></li>
-						<li><a href="CloseSesion.php">Cerrar Sesión</a></li>
+						<li><a href="#">Cerrar Sesión</a></li>
 					</ul>
 				</li>
 				<li class="menu_item"><a href="index.php">Inicio</a></li>
-				<li class="menu_item"><a href="cliente.php">Groomers</a></li>
 				<li class="menu_item"><a href="#">Productos</a></li>
-				<li class="menu_item"><a href="premios.php">Premios</a></li>
+				<li class="menu_item"><a href="#">Premios</a></li>
 			</ul>
 		</div>
 	</div>

@@ -90,7 +90,7 @@ while ($dataProduct = mysqli_fetch_array($queryProducts)) { ?>
 				</p>
 			</div>
 		
-			<div class="product_price"><?php echo $dataProduct['puntos']; ?> Puntos</div>
+			<div class="product_price">$<?php echo $dataProduct['precio']; ?> </div>
 			
 			<div class="quantity d-flex flex-column flex-sm-row align-items-sm-center">
 				<span style="font-size: 18px;">Cantidad:</span>
@@ -117,10 +117,6 @@ while ($dataProduct = mysqli_fetch_array($queryProducts)) { ?>
 					<i class="fas fa-clipboard-check"></i>
 				</button>
 			</p>
-
-			<!--
-				<a href="detallesArticulo.php" class="btn block red_button btn_puntos" title="Redimir mis Puntos">Agregar a Carrito</a>			
-			-->
 			</div>
 
 		</div>
@@ -131,7 +127,19 @@ while ($dataProduct = mysqli_fetch_array($queryProducts)) { ?>
 
 </div>
 
-<?php include('footer.html'); ?>
+<footer class="footer newsletter">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="footer_nav_container">
+                    <div class="cr">© 2021 gatitos & perritos
+                        <i class="fa fa-paw" aria-hidden="true"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
 
 </div>
 

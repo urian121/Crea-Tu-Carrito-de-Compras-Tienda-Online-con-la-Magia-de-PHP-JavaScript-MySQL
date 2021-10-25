@@ -40,21 +40,10 @@ if (isset($_SESSION['email']) != "") {
 <div class="container mt-5 pt-5">
 	<div class="row align-items-center mt-5"></div>
 
-	<div class="row align-items-center mb-3">
-		<div class="col-lg-12 text-center">
-			<div class="section_title">
-				<h2>
-					Bienvenido ....
-				</h2>
-			</div>
-		</div>
-	</div>
-
-
 	<div class="row align-items-center">
 		<div class="col-lg-12 text-center">
 			<div class="section_title">
-				<img class="img-fluid" src="images/friends-cat-dog.webp" alt="">
+				<img class="img-fluid" src="images/homepage-video-cropped.gif" alt="perros_y_gatos">
 			</div>
 		</div>
 	</div>
@@ -72,7 +61,6 @@ if (isset($_SESSION['email']) != "") {
 		fotoproducts AS fot
 	WHERE 
 		prod.id = fot.products_id
-		AND statusProduct ='1'
 		GROUP BY prod.id
 	");
 $queryProducts = mysqli_query($con, $sqlProducts);
@@ -82,7 +70,7 @@ $queryProducts = mysqli_query($con, $sqlProducts);
 	<div class="col-lg-12 text-center mt-5">
 		<div class="section_title">
 			<h2>La salud es única para cada mascota</h2>
-			<p>Formulamos nutrición a medida para ayudar a gatos y perros a tener una vida más saludable.</p>
+			<p>Hola a Todos..!</p>
 		</div>
 	</div>
 </div>
@@ -90,15 +78,15 @@ $queryProducts = mysqli_query($con, $sqlProducts);
 <div class="row align-items-center">
 <?php
 while ($dataProduct = mysqli_fetch_array($queryProducts)) { ?>
-<div class="col col-md-4 mt-5 text-center Products">
+<div class="col col-md-3 mt-5 text-center Products">
 <div class="card">
 		<img class="card-img-top" src="<?php echo $dataProduct["foto1"]; ?>" alt="Card image cap">
 	<div class="card-body text-center">
 			<h5 class="card-title card_title"><?php echo $dataProduct['nameProd']; ?></h5>
 		<p class="card-text p_puntos">
-			<?php echo $dataProduct['puntos']; ?> Puntos
+			$<?php echo $dataProduct['precio']; ?> 
 		</p>
-		<a href="detallesArticulo.php?idProd=<?php echo $dataProduct["prodId"]; ?>" class="red_button btn_puntos" title="Redimir mis Puntos">REDIMIR PUNTOS</a>
+		<a href="detallesArticulo.php?idProd=<?php echo $dataProduct["prodId"]; ?>" class="red_button btn_puntos" title="Redimir mis Puntos">Ver Producto</a>
 	</div>
 </div>
 </div>
@@ -106,22 +94,22 @@ while ($dataProduct = mysqli_fetch_array($queryProducts)) { ?>
   <?php } ?>
 </div>
 
-
-
-
-	<div class="row align-items-center">
-		<div class="col-lg-12 text-center mt-5">
-			<div class="section_title">
-				<img class="img-fluid" src="images/homepage-video-cropped.gif" alt="perros_y_gatos">	
-			</div>
-		</div>
-	</div>
-
-
 </div>
 
 
-<?php include('footer.html'); ?>
+<footer class="footer newsletter">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="footer_nav_container">
+                    <div class="cr">© 2021 gatitos & perritos
+                        <i class="fa fa-paw" aria-hidden="true"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
 
 </div>
 

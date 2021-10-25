@@ -16,7 +16,7 @@ $hours 				= date('h:i:s a', time());
 $sqlSearchPrecio = ("SELECT * FROM products WHERE id='".$idProduct."' ");
 $jquerySearchPrecio   = mysqli_query($con, $sqlSearchPrecio);
 $DataSearchPrecio     = mysqli_fetch_array($jquerySearchPrecio);
-$nuevoPrecioTotal 	  = $DataSearchPrecio['puntos'];
+$nuevoPrecioTotal 	  = $DataSearchPrecio['precio'];
 
 //Verifico si ya existe el producto almacenado en la tabla temporal de acuerdo al Token Unico del Cliente
 $ConsultarProduct = ("SELECT * FROM pedidostemporales WHERE tokenCliente='".$tokenCliente."' AND producto_id='".$idProduct."' ");

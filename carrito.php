@@ -127,7 +127,7 @@ if (isset($_SESSION['tokenStoragel']) == "") { ?>
 
                                 </div>
                             </td>
-                            <td class="text-right"><?php echo $dataMiProd["puntos"]; ?> pts</td>
+                            <td class="text-right"><?php echo $dataMiProd["precio"]; ?> pts</td>
 							<!--<td class="text-center">12,03</td>-->
                             <td class="text-right">
                                 <span class="btn btn-sm btn-danger deleteProd" id="<?php echo $dataMiProd['tempId']; ?>">
@@ -165,12 +165,12 @@ if (isset($_SESSION['tokenStoragel']) == "") { ?>
             $SqlDeuda = 
             ("SELECT 
                     p.id,
-                    p.puntos,
+                    p.precio,
                     p.nameProd,
                     pt.producto_id,
                     pt.tokenCliente,
                     pt.cantidad,
-                SUM(p.puntos * pt.cantidad) AS totalPagar 
+                SUM(p.precio * pt.cantidad) AS totalPagar 
                 FROM 
                     products as p,
                     pedidostemporales AS pt
@@ -205,7 +205,7 @@ if (isset($_SESSION['tokenStoragel']) == "") { ?>
         <div class="col mb-2 mt-5">
             <div class="row">
                 <div class="col-sm-12  col-md-6">
-                    <a href="premios.php" class="btn btn-block  red_button btn_raza">Continuar Comprando</a>
+                    <a href="index.php" class="btn btn-block  red_button btn_raza">Continuar Comprando</a>
                 </div>
                 <div class="col-sm-12 col-md-6 text-right">
                     <button class="btn btn-block btn-success">Enviar Pedido</button>
@@ -221,7 +221,19 @@ if (isset($_SESSION['tokenStoragel']) == "") { ?>
 </div>
 
 
-<?php include('footer.html'); ?>
+<footer class="footer newsletter">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="footer_nav_container">
+                    <div class="cr">© 2021 gatitos & perritos
+                        <i class="fa fa-paw" aria-hidden="true"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
 
 </div>
 

@@ -27,10 +27,9 @@ $queryProducts = mysqli_query($con, $sqlProducts);
 <!--[if gt IE 9 | !IE]><!-->
 <html lang="es">
 <head>
-<title>Groomersacademy</title>
+<title>Tienda Online</title>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="description" content="Groomersacademy">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" type="image/x-icon" href="images/favicon.png">
 <link rel="stylesheet" type="text/css" href="styles/bootstrap4/bootstrap.min.css">

@@ -1,5 +1,5 @@
 <?php
-session_start();
+session_start(); //Super Importante abro la session
 include('config.php');
 date_default_timezone_set("America/Bogota");
 

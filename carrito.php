@@ -12,10 +12,9 @@ require_once('config.php');
 <!--[if gt IE 9 | !IE]><!-->
 <html lang="es">
 <head>
-<title>Groomersacademy</title>
+<title>Tienda Online</title>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="description" content="Groomersacademy">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" type="image/x-icon" href="images/favicon.png">
 <link rel="stylesheet" type="text/css" href="styles/bootstrap4/bootstrap.min.css">
@@ -33,6 +32,8 @@ require_once('config.php');
 <?php include('header.php'); ?>
 
 <?php 
+if (isset($_SESSION['tokenStoragel']) != "") {
+
 $SqlMisProducts = 
 ("
     SELECT 
@@ -52,7 +53,7 @@ $SqlMisProducts =
 ");
 $jqueryMisProducts   = mysqli_query($con, $SqlMisProducts); 
 $totalMisPro         = mysqli_num_rows($jqueryMisProducts); 
-
+}
 ?>
 
 
@@ -190,7 +191,7 @@ if (isset($_SESSION['tokenStoragel']) == "") { ?>
                             </td>
                             <td class="text-right" style="background-color: #ff4545 !important;">
                                 <strong id="totalPuntos">
-                                    <?php echo number_format($dataDeuda['totalPagar'], 0,'','.'); ?>  PTS
+                                   $ <?php echo number_format($dataDeuda['totalPagar'], 0,'','.'); ?> 
                                 </strong>
                             </td>
                         </tr>
@@ -208,7 +209,7 @@ if (isset($_SESSION['tokenStoragel']) == "") { ?>
                     <a href="index.php" class="btn btn-block  red_button btn_raza">Continuar Comprando</a>
                 </div>
                 <div class="col-sm-12 col-md-6 text-right">
-                    <button class="btn btn-block btn-success">Enviar Pedido</button>
+                    <button class="btn btn-block btn-success">Solicitar Pedido</button>
                 </div>
             </div>
         </div>
@@ -245,7 +246,6 @@ if (isset($_SESSION['tokenStoragel']) == "") { ?>
 <script src="plugins/easing/easing.js"></script>
 <script src='js/kit.fontawesome.js'></script>
 <script src="js/custom.js"></script>
-<script src="js/single_custom.js"></script>
 <script src="js/miScript.js"></script>
 </body>
 

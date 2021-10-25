@@ -3,9 +3,6 @@
 session_start();
 include('config.php');
 header("Content-Type: text/html;charset=utf-8");
-if (isset($_SESSION['email']) != "") {
-   $email   = $_SESSION['email'];
-}
 
 ?>
 
@@ -20,7 +17,6 @@ if (isset($_SESSION['email']) != "") {
 <title>Tienda Online</title>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="description" content="Groomersacademy">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" type="image/x-icon" href="images/logo.jpg">
 <link rel="stylesheet" type="text/css" href="styles/bootstrap4/bootstrap.min.css">

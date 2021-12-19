@@ -205,7 +205,7 @@ if (isset($_SESSION['tokenStoragel']) == "") { ?>
 
         <div class="col mb-2 mt-5">
             <div class="row">
-                <div class="col-sm-12  col-md-6">
+                <div class="col-sm-12  col-md-6 mt-5">
                     <a href="index.php" class="btn btn-block  red_button btn_raza">Continuar Comprando</a>
                 </div>
                 <div class="col-sm-12 col-md-6 text-right">

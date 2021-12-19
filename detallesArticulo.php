@@ -78,7 +78,7 @@ while ($dataProduct = mysqli_fetch_array($queryProducts)) { ?>
 		<div class="product_details">
 			<div class="product_details_title">
 				<h2 id="titleArticulo">
-					<a href="premios.php">
+					<a href="index.php">
 						<i class="fas fa-angle-left" style="color: #666;"></i>
 					</a>
 					&nbsp;

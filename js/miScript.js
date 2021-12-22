@@ -68,54 +68,10 @@ return false;
 
 // Eliminar Producto de la cesta
 $(document).ready(function(){
-    
   //Levanto Ventana Modal, de confirmación. 
   $('.deleteProd').click(function(){
       var id = $(this).attr("id");
       $('#confirm-delete'+id).modal('show');
-  });
-  
-  
-  
-  $('.btn-ok').click(function(){
-      var id = $(this).attr("id");
-      var dataString = 'id='+ id;
-
-      url = "deleteProduct.php";
-          $.ajax({
-              type: "POST",
-              url: url,
-              data: dataString,
-              success: function(data)
-              {
-                  $("#registro" + id).hide();
-                 //Actualizando el nuevo Precio Total Restando Cantidad
-                 let nameTokenProducto = localStorage.getItem('miProducto'); 
-                 $.ajax({
-                    url: "nuevoTotalPrecio.php?tokenCliente="+nameTokenProducto,
-                    type: "POST",
-                    data: dataString,
-                    success: function(data){
-                      $('#confirm-delete'+id).modal('hide'); //Oculto la Ventana Modal
-                     var tr = $('#resp'+id).hide(); //Oculto el TR
-                      console.log(tr);
-                      $("#totalPrecio").html(data); //Refresco el total del Precio
-                      //Buscando el total de cantidad 
-                      $.post("resultCanTotalProduct.php", {nameTokenProducto: nameTokenProducto}, function (data) {
-                         $(".checkout_items").html(data); //Total de Productos seleccionados
-                         $("#totalCant").html('('+data+')'); //Items total de cantidad seleccionada
-                      }) 
-  
-                      //Total de Productos Seleccionados
-                      $.post("nuevoTotalPagar.php", {nameTokenProducto: nameTokenProducto}, function (data) {
-                       $("#totalPuntos").html(data); //Cantidad total de productos seleccionados.
-                     }) 
-  
-                    }
-                  });
-              }
-          }); 
-  
   });
   
   //Acccion salir de la Modal

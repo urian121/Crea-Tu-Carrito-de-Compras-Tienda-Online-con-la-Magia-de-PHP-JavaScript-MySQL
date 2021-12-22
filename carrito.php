@@ -16,7 +16,7 @@ require_once('config.php');
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="icon" type="image/x-icon" href="images/favicon.png">
+<link rel="icon" type="image/x-icon" href="images/logo.jpg">
 <link rel="stylesheet" type="text/css" href="styles/bootstrap4/bootstrap.min.css">
 <link href="plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" type="text/css" href="styles/main_styles.css">
@@ -125,11 +125,9 @@ if (isset($_SESSION['tokenStoragel']) == "") { ?>
                                     <span class="plus aumentarCant" id="<?php echo $dataMiProd['tempId']; ?>">
                                         <i class="fa fa-plus" aria-hidden="true"></i>
                                     </span>
-
                                 </div>
                             </td>
-                            <td class="text-right"><?php echo $dataMiProd["precio"]; ?> pts</td>
-							<!--<td class="text-center">12,03</td>-->
+                            <td class="text-right"> <strong>$</strong> <?php echo $dataMiProd["precio"]; ?> </td>
                             <td class="text-right">
                                 <span class="btn btn-sm btn-danger deleteProd" id="<?php echo $dataMiProd['tempId']; ?>">
                                     <i class="fa fa-trash"></i> 
@@ -141,6 +139,8 @@ if (isset($_SESSION['tokenStoragel']) == "") { ?>
                 <div class="modal fade" id="confirm-delete<?php echo $dataMiProd['tempId']; ?>" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
+                        <form action="deleteProduct.php" method="POST">
+                            <input type="text" name="id" value="<?php echo $dataMiProd['tempId']; ?>" hidden>
                             <div class="modal-header text-center">
                                 <h4 class="modal-title text-center">Eliminar Producto</h4>
                             </div>
@@ -151,10 +151,11 @@ if (isset($_SESSION['tokenStoragel']) == "") { ?>
                             </div>
 
                             <div class="modal-body text-center">
-                                <a class="btn btn-primary btn-ok" style="color:#fff; padding: 0px 50px; border-radius: 20px; margin: 0px 30px;" data-dismiss="modal" id="<?php echo $dataMiProd['tempId']; ?>">Sí</a>
+                                <button type="submit" class="btn btn-primary" style="color:#fff; padding: 0px 50px; border-radius: 20px; margin: 0px 30px;" data-dismiss="modal">Sí</button>
                                 <a class="btn btn-danger btn-salir" style="color:#fff; padding: 0px 50px; border-radius: 20px;" data-dismiss="modal" id="<?php echo $dataMiProd['tempId']; ?>">No
                                 </a>
                             </div>
+                        </form>
                         </div>
                     </div>
                 </div>
@@ -205,7 +206,7 @@ if (isset($_SESSION['tokenStoragel']) == "") { ?>
 
         <div class="col mb-2 mt-5">
             <div class="row">
-                <div class="col-sm-12  col-md-6 mt-5">
+                <div class="col-sm-12  col-md-6">
                     <a href="index.php" class="btn btn-block  red_button btn_raza">Continuar Comprando</a>
                 </div>
                 <div class="col-sm-12 col-md-6 text-right">
@@ -247,6 +248,6 @@ if (isset($_SESSION['tokenStoragel']) == "") { ?>
 <script src='js/kit.fontawesome.js'></script>
 <script src="js/custom.js"></script>
 <script src="js/miScript.js"></script>
-</body>
 
+</body>
 </html>

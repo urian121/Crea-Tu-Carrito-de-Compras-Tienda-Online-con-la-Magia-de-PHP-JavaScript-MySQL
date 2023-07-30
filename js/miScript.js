@@ -1,11 +1,3 @@
-$(document).ready(function(){
-$(window).load(function() {
-        $(".cargando").fadeOut(1000);
-        });  
-});
-
-
-
 /***** Registrar Pedido *******/
 $(".comprar").on('click', function(e){
   e.preventDefault();

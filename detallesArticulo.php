@@ -14,11 +14,18 @@
 	<link rel="stylesheet" type="text/css" href="assets/styles/single_styles.css">
 	<link rel="stylesheet" type="text/css" href="assets/styles/single_responsive.css">
 	<link rel="stylesheet" href="assets/styles/button_cart.css">
+	<link rel="stylesheet" href="assets/styles/loader.css">
 	<title>Crea Tu Carrito de Compras Online con la Magia de PHP, JavaScript y MySQL :: Urian Viera </title>
 
 </head>
 
 <body>
+	<div class="page-loading active">
+		<div class="page-loading-inner">
+			<div class="page-spinner"></div>
+			<span>cargando...</span>
+		</div>
+	</div>
 
 	<div class="super_container">
 		<?php

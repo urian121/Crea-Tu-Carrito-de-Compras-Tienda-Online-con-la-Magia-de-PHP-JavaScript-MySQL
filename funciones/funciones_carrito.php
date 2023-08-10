@@ -90,5 +90,5 @@ function totalAccionAumentarDisminuir($con, $tokenCliente)
         ";
     $jqueryDeuda = mysqli_query($con, $SqlDeudaTotal);
     $dataDeuda = mysqli_fetch_array($jqueryDeuda);
-    echo number_format($dataDeuda['totalPagar'], 0, '', '.');
+    echo $dataDeuda['totalPagar'];
 }

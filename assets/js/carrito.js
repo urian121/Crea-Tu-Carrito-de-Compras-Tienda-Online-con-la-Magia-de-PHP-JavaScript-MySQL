@@ -70,7 +70,7 @@ function aumentar_cantidad(idProd, precio) {
       .then(function (response) {
         document.querySelector(
           "#totalPuntos"
-        ).textContent = `$ ${response.data}`;
+        ).textContent = `$ ${formatearCantidad(response.data)}`;
       })
       .catch(function (error) {
         console.error("Error:", error);
@@ -106,7 +106,7 @@ function disminuir_cantidad(idProd, precio) {
           console.log(response.data);
           document.querySelector(
             "#totalPuntos"
-          ).textContent = `$ ${response.data}`;
+          ).textContent = `$ ${formatearCantidad(response.data)}`;
         })
         .catch(function (error) {
           console.error("Error:", error);
@@ -125,4 +125,12 @@ function borrar_producto(idProduct) {
 function salir_modal(tempId) {
   var modal = document.getElementById("confirm-delete" + tempId);
   modal.style.display = "none";
+}
+
+function formatearCantidad(cantidad) {
+  let formattedTotal = cantidad.toLocaleString("es-ES", {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 2,
+  });
+  return formattedTotal;
 }

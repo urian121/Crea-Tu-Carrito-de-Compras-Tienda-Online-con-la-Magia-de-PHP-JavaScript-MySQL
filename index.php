@@ -11,17 +11,20 @@
 
 	<link rel="stylesheet" type="text/css" href="assets/styles/main_styles.css">
 	<link rel="stylesheet" type="text/css" href="assets/styles/responsive.css">
+	<link rel="stylesheet" href="assets/styles/loader.css">
 	<title>Crea Tu Carrito de Compras Online con la Magia de PHP, JavaScript y MySQL :: Urian Viera </title>
-	<style>
-		.card {
-			box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
-		}
-	</style>
 </head>
 
 <body>
+	<div class="page-loading active">
+		<div class="page-loading-inner">
+			<div class="page-spinner"></div>
+			<span>cargando...</span>
+		</div>
+	</div>
 	<?php
-	include('funciones/funciones_tienda.php')
+	include('funciones/funciones_tienda.php');
+	include('header.php');
 	?>
 
 	<div class="super_container">
@@ -49,16 +52,16 @@
 			<div class="row align-items-center">
 				<?php
 				while ($dataProduct = mysqli_fetch_array($resultadoProductos)) { ?>
-					<div class="col col-md-3 mt-5 text-center Products">
-						<div class="card">
-							<img class="card-img-top" src="<?php echo $dataProduct["foto1"]; ?>" alt="Card image cap">
-							<div class="card-body text-center">
+					<div class="col-6 col-md-3 mt-5 text-center Products">
+						<div class="card" style="max-height: 400px !important; min-height: 400px !important;">
+							<img class="card-img-top" src="<?php echo $dataProduct["foto1"]; ?>" alt="<?php echo $dataProduct['nameProd']; ?>" style="max-width: 200px;">
+							<div class=" card-body text-center">
 								<h5 class="card-title card_title"><?php echo $dataProduct['nameProd']; ?></h5>
 								<p class="card-text p_puntos">
 									$ <?php echo number_format($dataProduct['precio'], 0, '', '.'); ?>
 								</p>
-								<a href="detallesArticulo.php?idProd=<?php echo $dataProduct["prodId"]; ?>" class="red_button btn_puntos" title="Redimir mis Puntos">Ver Producto</a>
 							</div>
+							<a href="detallesArticulo.php?idProd=<?php echo $dataProduct["prodId"]; ?>" class="red_button btn_puntos" title="Redimir mis Puntos">Ver Producto</a>
 						</div>
 					</div>
 

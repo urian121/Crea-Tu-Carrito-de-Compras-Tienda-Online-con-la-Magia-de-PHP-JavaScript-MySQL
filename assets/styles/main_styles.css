@@ -45,7 +45,10 @@ COLOR PALETTE
 /*********************************
 2. Body and some general stuff
 *********************************/
-
+html {
+  min-height: 100%;
+  position: relative;
+}
 * {
   margin: 0;
   padding: 0;
@@ -248,6 +251,7 @@ section {
 .super_container {
   width: 100%;
   overflow: hidden;
+  margin-bottom: 200px;
 }
 
 /*********************************
@@ -1318,6 +1322,8 @@ section {
   width: 100%;
   background: #f2f2f2;
   margin-top: 81px;
+  position: fixed;
+  bottom: 0;
 }
 .newsletter_text {
   height: 120px;
@@ -1772,4 +1778,8 @@ input:valid::-webkit-input-placeholder {
   font-weight: 900;
   float: right;
   color: #222 !important;
+}
+
+.card {
+  box-shadow: 0px 17px 26px -8px rgba(151, 172, 193, 0.6);
 }

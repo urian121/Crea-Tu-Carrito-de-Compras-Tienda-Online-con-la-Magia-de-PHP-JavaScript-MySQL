@@ -1,4 +1,3 @@
-<!--color:#fe4c50; -->
 <header class="header trans_300">
 	<div class="top_nav">
 		<div class="container">
@@ -12,48 +11,33 @@
 			</div>
 		</div>
 	</div>
-
-
 	<div class="main_nav_container">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12 text-right">
 					<div class="logo_container">
 						<a href="index.php">
-							<img src="images/logo.jpg" style="width: 60px;">
+							<img src="assets/images/logo.png" style="width: 60px;">
 						</a>
 					</div>
 					<nav class="navbar">
 						<ul class="navbar_menu">
-							<li><a class="nav-link" href="index.php">Inicio</a></li>
-							<li><a class="nav-link" href="index.php">Productos</a></li>
+							<li><a class="nav-link" href="./">Inicio</a></li>
+							<li><a class="nav-link" href="./">Productos</a></li>
 							<li><a class="nav-link" href="#">contacto</a></li>
 						</ul>
-						<?php
-						if (isset($_SESSION['tokenStoragel']) != "") {
-							$SqlTotalProduct       = ("SELECT SUM(cantidad) AS totalProd FROM pedidostemporales WHERE tokenCliente='" . $_SESSION['tokenStoragel'] . "' GROUP BY tokenCliente");
-							$jqueryTotalProduct    = mysqli_query($con, $SqlTotalProduct);
-							$DataTotalProducto     = mysqli_fetch_array($jqueryTotalProduct);
-						} ?>
 						<ul class="navbar_user">
 							<li class="checkout">
 								<a href="carrito.php">
-									<i class="fas fa-dog" style='font-size:18px'></i>
+									<img src="assets/images/icon.png" alt="dog" style="width: 20px;">
 									<?php
-									if (isset($_SESSION['tokenStoragel']) != "") {
-										if (!empty($DataTotalProducto['totalProd'])) { ?>
-											<span id="checkout_items" class="checkout_items">
-												<?php echo $DataTotalProducto['totalProd']; ?>
-											</span>
-										<?php }
-									} else { ?>
-										<span id="checkout_items" class="checkout_items">0</span>
-									<?php } ?>
+									echo iconoCarrito($con);
+									?>
 								</a>
 							</li>
 						</ul>
 						<div class="hamburger_container">
-							<i class="fa fa-bars" aria-hidden="true"></i>
+							<i class="bi bi-list"></i>
 						</div>
 					</nav>
 				</div>
@@ -65,7 +49,7 @@
 
 <div class="fs_menu_overlay"></div>
 <div class="hamburger_menu">
-	<div class="hamburger_close"><i class="fa fa-times" aria-hidden="true"></i></div>
+	<div class="hamburger_close"><i class="bi bi-x-lg"></i></div>
 	<div class="hamburger_menu_content text-right">
 		<ul class="menu_top_nav">
 			<li class="menu_item has-children">
@@ -78,8 +62,8 @@
 					<li><a href="#">Cerrar Sesión</a></li>
 				</ul>
 			</li>
-			<li class="menu_item"><a href="index.php">Inicio</a></li>
-			<li class="menu_item"><a href="#">Productos</a></li>
+			<li class="menu_item"><a href="./">Inicio</a></li>
+			<li class="menu_item"><a href="./">Productos</a></li>
 			<li class="menu_item"><a href="#">Premios</a></li>
 		</ul>
 	</div>

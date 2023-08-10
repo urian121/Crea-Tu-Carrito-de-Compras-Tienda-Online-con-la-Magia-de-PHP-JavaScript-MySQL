@@ -1,68 +1,53 @@
-<?php
-session_start();
-require_once('config.php');
-$idProd = isset($_POST['idProd']) ? $_POST['idProd'] : $_GET['idProd'];
-
-$sqlProducts = ("
-	SELECT 
-		prod . * ,
-		prod.id AS prodId,
-		fot . * ,
-		fot.id AS fotId 
-	FROM 
-		products AS prod,
-		fotoproducts AS fot
-	WHERE 
-		prod.id = fot.products_id
-		AND prod.id ='" . $idProd . "'
-		LIMIT 1
-	");
-$queryProducts = mysqli_query($con, $sqlProducts);
-?>
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7 " lang="en"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8 " lang="en"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9 " lang="en"> <![endif]-->
-<!--[if IE 9]>         <html class="no-js ie9 " lang="en"> <![endif]-->
-<!--[if gt IE 9 | !IE]><!-->
 <html lang="es">
 
 <head>
-	<title>Tienda Online</title>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="icon" type="image/x-icon" href="images/logo.jpg">
-	<link rel="stylesheet" type="text/css" href="styles/bootstrap4/bootstrap.min.css">
-	<link href="plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-	<link rel="stylesheet" type="text/css" href="styles/main_styles.css">
-	<link rel="stylesheet" type="text/css" href="styles/responsive.css">
-	<link rel="stylesheet" type="text/css" href="styles/single_styles.css">
-	<link rel="stylesheet" type="text/css" href="styles/single_responsive.css">
+	<link rel="icon" type="image/x-icon" href="assets/images/icon.png">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+	<link rel="stylesheet" type="text/css" href="assets/styles/bootstrap4/bootstrap.min.css">
+
+	<link rel="stylesheet" type="text/css" href="assets/styles/main_styles.css">
+	<link rel="stylesheet" type="text/css" href="assets/styles/responsive.css">
+	<link rel="stylesheet" type="text/css" href="assets/styles/single_styles.css">
+	<link rel="stylesheet" type="text/css" href="assets/styles/single_responsive.css">
+	<link rel="stylesheet" href="assets/styles/button_cart.css">
+	<title>Crea Tu Carrito de Compras Online con la Magia de PHP, JavaScript y MySQL :: Urian Viera </title>
 
 </head>
 
 <body>
 
 	<div class="super_container">
+		<?php
 
-		<?php include('header.php'); ?>
-
+		include('funciones/funciones_tienda.php');
+		$idProd = isset($_POST['idProd']) ? $_POST['idProd'] : $_GET['idProd'];
+		include('header.php');
+		$resultadoDetalleProduct = detalles_producto_seleccionado($con, $idProd);
+		?>
 
 		<div class="container single_product_container">
-
 			<div class="row">
 				<?php
-				while ($dataProduct = mysqli_fetch_array($queryProducts)) { ?>
+				while ($dataProduct = mysqli_fetch_array($resultadoDetalleProduct)) { ?>
 					<div class="col-lg-7">
 						<div class="single_product_pics">
 							<div class="row">
 								<div class="col-lg-3 thumbnails_col order-lg-1 order-2">
 									<div class="single_product_thumbnails">
 										<ul>
-											<li class="hoverAnimationProduct"><img src="<?php echo $dataProduct["foto2"]; ?>" alt="" data-image="<?php echo $dataProduct["foto2"]; ?>"></li>
-											<li class="active hoverAnimationProduct"><img src="<?php echo $dataProduct["foto1"]; ?>" alt="" data-image="<?php echo $dataProduct["foto1"]; ?>"></li>
-											<li class="hoverAnimationProduct"><img src="<?php echo $dataProduct["foto3"]; ?>" alt="" data-image="<?php echo $dataProduct["foto3"]; ?>"></li>
+											<li class="hoverAnimationProduct">
+												<img src="<?php echo $dataProduct["foto2"]; ?>" alt="" data-image="<?php echo $dataProduct["foto2"]; ?>">
+											</li>
+											<li class="active hoverAnimationProduct">
+												<img src="<?php echo $dataProduct["foto1"]; ?>" alt="" data-image="<?php echo $dataProduct["foto1"]; ?>">
+											</li>
+											<li class="hoverAnimationProduct">
+												<img src="<?php echo $dataProduct["foto3"]; ?>" alt="" data-image="<?php echo $dataProduct["foto3"]; ?>">
+											</li>
 										</ul>
 									</div>
 								</div>
@@ -89,16 +74,14 @@ $queryProducts = mysqli_query($con, $sqlProducts);
 								</p>
 							</div>
 
-							<div class="product_price">$<?php echo $dataProduct['precio']; ?> </div>
+							<div class="product_price">$<?php echo number_format($dataProduct['precio'], 0, '', '.'); ?> </div>
 
 							<div class="quantity d-flex flex-column flex-sm-row align-items-sm-center">
 								<span style="font-size: 18px;">Cantidad:</span>
 								<div class="quantity_selector">
 									<span class="minus">
 									</span>
-
 									<span id="quantity_value" style="font-weight:bold;">1</span>
-
 									<span class="plus">
 									</span>
 								</div>
@@ -107,51 +90,31 @@ $queryProducts = mysqli_query($con, $sqlProducts);
 									&nbsp;&nbsp;
 								</div>
 								&nbsp;&nbsp;
-								<p>
-									<button data-id="<?php echo $dataProduct["prodId"]; ?>" class="comprar cart-button btn block">
-										<span class="add-to-cart">Agregar a Carrito</span>
 
-										<span class="added" style='color: #fff; font-weight:500'>Agregado <i class="fas fa-check" style="color:green;"></i> </span>
-										<i class="fas fa-cart-plus"></i>
-										<i class="fas fa-clipboard-check"></i>
+								<p>
+									<button class="button cart-button btn block" onclick="agregarCarrito(this, '<?php echo $dataProduct['prodId']; ?>', '<?php echo $dataProduct['precio']; ?>')">
+										<span>Agregar a Carrito</span>
+										<div class="cart">
+											<svg viewBox="0 0 36 26">
+												<polyline points="1 2.5 6 2.5 10 18.5 25.5 18.5 28.5 7.5 7.5 7.5"></polyline>
+												<polyline points="15 13.5 17 15.5 22 10.5"></polyline>
+											</svg>
+										</div>
 									</button>
 								</p>
+
 							</div>
 
 						</div>
 					</div>
 				<?php } ?>
 			</div>
-
-
 		</div>
 
-		<footer class="footer newsletter">
-			<div class="container">
-				<div class="row">
-					<div class="col-lg-12">
-						<div class="footer_nav_container">
-							<div class="cr">© 2021 gatitos & perritos
-								<i class="fa fa-paw" aria-hidden="true"></i>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</footer>
-
+		<?php include('includes/footer.html'); ?>
 	</div>
 
-	<script src="https://code.jquery.com/jquery-2.2.4.js"></script>
-	<script src="styles/bootstrap4/popper.js"></script>
-	<script src="styles/bootstrap4/bootstrap.min.js"></script>
-	<script src="plugins/Isotope/isotope.pkgd.min.js"></script>
-	<script src="plugins/easing/easing.js"></script>
-	<script src='js/kit.fontawesome.js'></script>
-	<script src="js/custom.js"></script>
-	<script src="js/single_custom.js"></script>
-	<script src="js/miScript.js"></script>
-
+	<?php include('includes/js.html'); ?>
 
 </body>
 

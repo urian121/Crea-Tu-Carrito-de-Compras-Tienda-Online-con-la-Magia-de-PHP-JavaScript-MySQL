@@ -16,8 +16,8 @@
 			<div class="row">
 				<div class="col-lg-12 text-right">
 					<div class="logo_container">
-						<a href="index.php">
-							<img src="assets/images/logo.png" style="width: 60px;">
+						<a href="./">
+							<img src="assets/images/logo.png" class="mi_logo">
 						</a>
 					</div>
 					<nav class="navbar">

@@ -67,13 +67,16 @@ if (isset($_POST["accion"]) && $_POST["accion"] == "disminuirCantida") {
     $tokenCliente               = $_POST['tokenCliente'];
     $disminuirCantida           = $_POST['disminuirCantida'];
 
-
-    $UpdateCant = ("UPDATE pedidostemporales 
+    if ($disminuirCantida == 0) {
+        $DeleteRegistro = ("DELETE FROM pedidostemporales WHERE tokenCliente='{$tokenCliente}' AND id='" . $idProd . "' ");
+        mysqli_query($con, $DeleteRegistro);
+    } else {
+        $UpdateCant = ("UPDATE pedidostemporales 
         SET cantidad ='$disminuirCantida'
 	WHERE tokenCliente='" . $tokenCliente . "' 
         AND id='" . $idProd . "' ");
-    $result = mysqli_query($con, $UpdateCant);
-
+        $result = mysqli_query($con, $UpdateCant);
+    }
 
     //Total deuda
     totalAccionAumentarDisminuir($con, $tokenCliente);
@@ -86,9 +89,22 @@ function totalAccionAumentarDisminuir($con, $tokenCliente)
         FROM products AS p
         INNER JOIN pedidostemporales AS pt
         ON p.id = pt.producto_id
-        WHERE pt.tokenCliente = '" .  $tokenCliente . "'
-        ";
+        WHERE pt.tokenCliente = '" .  $tokenCliente . "'";
     $jqueryDeuda = mysqli_query($con, $SqlDeudaTotal);
     $dataDeuda = mysqli_fetch_array($jqueryDeuda);
     echo $dataDeuda['totalPagar'];
+}
+
+/**
+ * Funcion que esta al pendiente de verificar si hay pedidos activos por el usuario en cuestión
+ */
+if (isset($_POST["accion"]) && $_POST["accion"] == "verificarResumenPedido") {
+    $tokenCliente               = $_POST['tokenCliente'];
+    $ConsultarProduct = ("SELECT * FROM pedidostemporales WHERE tokenCliente='" . $tokenCliente . "' ");
+    $jqueryProduct    = mysqli_query($con, $ConsultarProduct);
+    if (mysqli_num_rows($jqueryProduct) > 0) {
+        totalAccionAumentarDisminuir($con, $tokenCliente);
+    } else {
+        echo 0;
+    }
 }

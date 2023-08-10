@@ -1,3 +1,5 @@
+let ruta = `funciones/funciones_carrito.php`; //Ruta para almacenar el pedido.
+
 /**
  * Función para agregar un producto al carrito de compra desde el detalle del producto.
  */
@@ -7,7 +9,6 @@ function agregarCarrito(btn_cart, idProduct, precio) {
     setTimeout(() => btn_cart.classList.remove("loading"), 1500);
   }
 
-  let ruta = `funciones/funciones_carrito.php`; //Ruta para almacenar el pedido.
   let nameTokenProducto;
 
   if ("miProducto" in localStorage) {
@@ -61,9 +62,7 @@ function aumentar_cantidad(idProd, precio) {
 
   if ("miProducto" in localStorage) {
     let nameTokenProducto = localStorage.getItem("miProducto"); //Obtener el token generado ya LocalStorage
-
     let dataString = `idProd=${idProd}&precio=${precio}&tokenCliente=${nameTokenProducto}&aumentarCantida=${nuevaCantidad}`;
-    let ruta = `funciones/funciones_carrito.php`;
 
     axios
       .post(ruta, dataString)
@@ -85,8 +84,14 @@ function disminuir_cantidad(idProd, precio) {
   let cantidaProducto = document.querySelector(`#display${idProd}`);
   let valorActual = parseInt(cantidaProducto.innerText);
 
-  // Evitar que la cantidad sea menor que cero
-  if (valorActual > 0) {
+  if (valorActual >= 1) {
+    /**Si la cantidad total del producto restado es igual a 1 */
+    if (valorActual == 1) {
+      let fila = document.querySelector(`#resp${idProd}`);
+      fila.remove();
+    }
+
+    // Evitar que la cantidad sea menor que cero
     let nuevaCantidad = valorActual - 1;
     cantidaProducto.innerText = nuevaCantidad;
 
@@ -98,15 +103,15 @@ function disminuir_cantidad(idProd, precio) {
     if ("miProducto" in localStorage) {
       let nameTokenProducto = localStorage.getItem("miProducto"); //Obtener el token generado ya LocalStorage
       let dataString = `accion=disminuirCantida&idProd=${idProd}&precio=${precio}&tokenCliente=${nameTokenProducto}&disminuirCantida=${nuevaCantidad}`;
-      let ruta = `funciones/funciones_carrito.php`;
 
       axios
         .post(ruta, dataString)
         .then(function (response) {
-          console.log(response.data);
           document.querySelector(
             "#totalPuntos"
           ).textContent = `$ ${formatearCantidad(response.data)}`;
+
+          verificarResumenPedido(nameTokenProducto);
         })
         .catch(function (error) {
           console.error("Error:", error);
@@ -133,4 +138,24 @@ function formatearCantidad(cantidad) {
     maximumFractionDigits: 2,
   });
   return formattedTotal;
+}
+
+function verificarResumenPedido(nameTokenProducto) {
+  console.log("llegueee*");
+  let dataString = `accion=verificarResumenPedido&tokenCliente=${nameTokenProducto}`;
+  axios
+    .post(ruta, dataString)
+    .then(function (response) {
+      if (response.data == 0) {
+        localStorage.removeItem("miProducto");
+        //localStorage.clear();
+
+        window.location.href = window.location.href;
+      } else {
+        return response.data;
+      }
+    })
+    .catch(function (error) {
+      console.error("Error:", error);
+    });
 }

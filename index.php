@@ -59,7 +59,15 @@
 							</div>
 							<div class=" card-body text-center">
 								<h5 class="card-title card_title"><?php echo $dataProduct['nameProd']; ?></h5>
-								<p class="card-text p_puntos">
+								<?php
+								$isEven = $dataProduct["prodId"] % 2 == 0;
+
+								for ($i = 1; $i <= 5; $i++) {
+									echo '<span><i class="bi bi-star-fill" style="padding: 0px 2px; color:' . ($isEven ? '#ffb90c' : ($i <= 3 ? '#ffb90c' : '')) . ';"></i></span>';
+								}
+								?>
+								<hr>
+								<p class="card-text p_puntos ">
 									$ <?php echo number_format($dataProduct['precio'], 0, '', '.'); ?>
 								</p>
 							</div>

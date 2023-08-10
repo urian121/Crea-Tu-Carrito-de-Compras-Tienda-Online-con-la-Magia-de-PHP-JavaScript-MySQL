@@ -99,10 +99,16 @@
                     <div class="col mb-2 mt-5">
                         <div class="row justify-content-md-center">
                             <div class="col-md-6 mb-4">
-                                <a href="./" class="btn btn-block  red_button btn_raza">Continuar Comprando</a>
+                                <a href="./" class="btn btn-block btn_raza">
+                                    <i class="bi bi-cart-plus"></i>
+                                    Continuar Comprando
+                                </a>
                             </div>
                             <div class="col-md-6">
-                                <button class="btn btn-block btn-success">Solicitar Pedido</button>
+                                <button class="btn btn-block btn-success">
+                                    Solicitar Pedido
+                                    <i class="bi bi-arrow-right-circle"></i>
+                                </button>
                             </div>
                         </div>
                     </div>

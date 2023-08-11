@@ -1,93 +1,12 @@
 <?php
-https://lacodigoteca.com/php/5-librerias-para-generar-pdf/
+
+data = request.form
+for key in data.keys():
+    value = data.get(key)
+    print(f'{key}: {value}')
 
 
 
-
-require_once('tcpdf/tcpdf.php');
-include('config/config.php');
-date_default_timezone_set('America/Bogota');
-
-$codPedido = isset($_POST['codPedido']) ? $_POST['codPedido'] : $_GET['codPedido'];
-
-ob_end_clean(); //limpiar la memoria
-
-class MYPDF extends TCPDF
-{
-    public function Header()
-    {
-        $bMargin = $this->getBreakMargin();
-        $auto_page_break = $this->AutoPageBreak;
-        $this->SetAutoPageBreak(false, 0);
-        $img_file = dirname(__FILE__) . '/assets/img/logo.png';
-        $this->Image($img_file, 85, 8, 20, 25, '', '', '', false, 30, '', false, false, 0);
-        $this->SetAutoPageBreak($auto_page_break, $bMargin);
-        $this->setPageMark();
-    }
-
-    // Page footer
-    public function Footer()
-    {
-        // Position at 15 mm from bottom
-        $this->setY(-15);
-        // Set font
-        $this->setFont('helvetica', 'I', 8);
-        // Page number
-        $this->Cell(0, 10, 'Page ' . $this->getAliasNumPage() . '/' . $this->getAliasNbPages(), 0, false, 'C', 0, '', 0, false, 'T', 'M');
-    }
-}
-
-//iniciando un nuevo pdf
-$pdf = new MYPDF(PDF_PAGE_ORIENTATION, 'mm', 'Letter', true, 'UTF-8', false);
-
-//establecer margenes
-$pdf->SetMargins(25, 35, 25);
-$pdf->SetHeaderMargin(20);
-$pdf->setPrintFooter(false);
-$pdf->setPrintHeader(true);
-$pdf->SetAutoPageBreak(false);
-
-
-//informacion del pdf
-$pdf->SetCreator('UrianViera');
-$pdf->SetAuthor('UrianViera');
-$pdf->SetTitle('Factura de Pedido');
-
-
-$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
-
-//tipo de fuente y tamanio
-$pdf->SetFont('helvetica', '', 12);
-
-// Agregar nueva pagina
-$pdf->AddPage();
-
-$sqlCarritoCompra = ("
-            SELECT 
-                prod . * ,
-                prod.id AS prodId,
-                fot . *,
-                pedtemp .* ,
-                pedtemp.id AS tempId
-            FROM 
-                products AS prod,
-                fotoproducts AS fot,
-                pedidostemporales AS pedtemp
-            WHERE 
-                prod.id = fot.products_id 
-                AND prod.id=pedtemp.producto_id
-                AND pedtemp.tokenCliente='" . $codPedido . "'");
-$queryCarrito   = mysqli_query($con, $sqlCarritoCompra);
-
-$token = substr($codPedido, 0, 5);
-
-
-
-
-$pdf->Ln(20);
-$pdf->SetFont('helvetica', 'B', 12);
-$pdf->Cell(100, 6, 'RESUMEN DE MI PEDIDO', 0, 0, 'C');
-$pdf->Ln(20);
 
 
 $pdf->SetFillColor(232, 232, 232);

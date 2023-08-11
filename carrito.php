@@ -82,8 +82,8 @@
                                         include('modalEliminarProduct.php'); ?>
                                     <?php } ?>
                                     <tr style="background-color: #fff !important;">
-                                        <td colspan="3"></td>
-                                        <td colspan="2" style="color:#fff; background-color: #ff4545 !important;">
+                                        <td colspan="4"></td>
+                                        <td style="color:#fff; background-color: #ff4545 !important;">
                                             Total a Pagar:
                                             <span id="totalPuntos">
                                                 $ <?php echo totalAcumuladoDeuda($con); ?>

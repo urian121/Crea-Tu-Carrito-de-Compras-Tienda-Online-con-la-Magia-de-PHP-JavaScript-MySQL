@@ -1,0 +1,596 @@
+<?php
+https://lacodigoteca.com/php/5-librerias-para-generar-pdf/
+
+
+
+
+require_once('tcpdf/tcpdf.php');
+include('config/config.php');
+date_default_timezone_set('America/Bogota');
+
+$codPedido = isset($_POST['codPedido']) ? $_POST['codPedido'] : $_GET['codPedido'];
+
+ob_end_clean(); //limpiar la memoria
+
+class MYPDF extends TCPDF
+{
+    public function Header()
+    {
+        $bMargin = $this->getBreakMargin();
+        $auto_page_break = $this->AutoPageBreak;
+        $this->SetAutoPageBreak(false, 0);
+        $img_file = dirname(__FILE__) . '/assets/img/logo.png';
+        $this->Image($img_file, 85, 8, 20, 25, '', '', '', false, 30, '', false, false, 0);
+        $this->SetAutoPageBreak($auto_page_break, $bMargin);
+        $this->setPageMark();
+    }
+
+    // Page footer
+    public function Footer()
+    {
+        // Position at 15 mm from bottom
+        $this->setY(-15);
+        // Set font
+        $this->setFont('helvetica', 'I', 8);
+        // Page number
+        $this->Cell(0, 10, 'Page ' . $this->getAliasNumPage() . '/' . $this->getAliasNbPages(), 0, false, 'C', 0, '', 0, false, 'T', 'M');
+    }
+}
+
+//iniciando un nuevo pdf
+$pdf = new MYPDF(PDF_PAGE_ORIENTATION, 'mm', 'Letter', true, 'UTF-8', false);
+
+//establecer margenes
+$pdf->SetMargins(25, 35, 25);
+$pdf->SetHeaderMargin(20);
+$pdf->setPrintFooter(false);
+$pdf->setPrintHeader(true);
+$pdf->SetAutoPageBreak(false);
+
+
+//informacion del pdf
+$pdf->SetCreator('UrianViera');
+$pdf->SetAuthor('UrianViera');
+$pdf->SetTitle('Factura de Pedido');
+
+
+$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+//tipo de fuente y tamanio
+$pdf->SetFont('helvetica', '', 12);
+
+// Agregar nueva pagina
+$pdf->AddPage();
+
+$sqlCarritoCompra = ("
+            SELECT 
+                prod . * ,
+                prod.id AS prodId,
+                fot . *,
+                pedtemp .* ,
+                pedtemp.id AS tempId
+            FROM 
+                products AS prod,
+                fotoproducts AS fot,
+                pedidostemporales AS pedtemp
+            WHERE 
+                prod.id = fot.products_id 
+                AND prod.id=pedtemp.producto_id
+                AND pedtemp.tokenCliente='" . $codPedido . "'");
+$queryCarrito   = mysqli_query($con, $sqlCarritoCompra);
+
+$token = substr($codPedido, 0, 5);
+
+
+
+
+$pdf->Ln(20);
+$pdf->SetFont('helvetica', 'B', 12);
+$pdf->Cell(100, 6, 'RESUMEN DE MI PEDIDO', 0, 0, 'C');
+$pdf->Ln(20);
+
+
+$pdf->SetFillColor(232, 232, 232);
+$pdf->SetFont('helvetica', 'B', 12);
+$pdf->Cell(30, 10, 'Cantidad', 1, 0, 'C', 1);
+$pdf->Cell(100, 10, 'Producto', 1, 0, 'C', 1);
+$pdf->Cell(40, 10, 'SubTotal', 1, 1, 'C', 1);
+
+while ($dataP = mysqli_fetch_array($queryCarrito)) {
+    $pdf->Cell(30, 10, $dataP['cantidadDisponible'], 1, 0, 'C');
+    $pdf->Cell(100, 10, $dataP['nameProd'], 1, 0, 'C');
+    $pdf->Cell(40, 10, '$' . number_format($dataP['precio'], 2), 1, 1, 'C');
+}
+
+
+$html = '
+<table border="1">
+    <tr>
+        <th>Cantidad</th>
+        <th>Producto</th>
+        <th>SubTotal</th>
+    </tr>';
+
+while ($dataP = mysqli_fetch_array($queryCarrito)) {
+    $precioFormateado = number_format($dataP['precio'], 2); // Formatear el precio aquí
+    $html .= '
+    <tr>
+        <td>' . $dataP['cantidadDisponible'] . '</td>
+        <td>' . $dataP['nameProd'] . '</td>
+        <td>$' . $precioFormateado . '</td>
+    </tr>';
+}
+
+$html .= '
+</table>';
+
+$pdf->writeHTML($html);
+
+
+
+$pdf->Output('Solicitud_pedido_' . date('d_m_Y_h_i_A') . '.pdf', 'I');
+//la D es para forzar la descargarnd del pdf y La I funciona como un target
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+$codPedido = isset($_POST['codPedido']) ? $_POST['codPedido'] : $_GET['codPedido'];
+$WhasappPedidos = "+573219674320";
+
+#http://localhost/Crea-Tu-Carrito-de-Compras-Tienda-Online-con-la-Magia-de-PHP-JavaScript-MySQL/pdfPedido.php?codPedido=QRnDCkfJkrUDeT7wrEapkgEiCKrMbMJN
+
+$linkPedido     = "./pedido.php?codPedido=" . $codPedido;
+$text           = 'Hola, me interesa el siguiente pedido: ';
+$webApiWhatsapp = "https://api.whatsapp.com/send?phone=" . $WhasappPedidos . "&text=" . $text . ' ' . $linkPedido;
+?>
+
+<!---
+<meta http-equiv="refresh" content="0; url=<?php //echo $webApiWhatsapp; 
+                                            ?>">
+-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+PEDIDO:
+<?php
+include('panel/config.php');
+$tokenCliente   = isset($_POST['codPedido']) ? $_POST['codPedido'] : $_GET['codPedido'];
+
+//Pequeño sql para traerme el logo de esa tienda y mostrarlo en la vista previa
+//del whatsapp, al momento de enviar el link
+/*** SQL logo */
+
+//consulto el cliente_id_tienda que es id del dueño de la tienda, todo esto con el fin de obtener el logo 
+//de la tienda de dicho cliente.
+$buscarIdCli = ("SELECT cliente_id_tienda AS cliente_id FROM pedidostemporales WHERE tokenCliente='".$tokenCliente."' GROUP BY cliente_id_tienda");
+$queryIdCli = mysqli_query($con, $buscarIdCli);
+$DataIdCli  = mysqli_fetch_array($queryIdCli);
+
+if(!empty($DataIdCli['cliente_id'])){
+//Consulto el logo de dicho cliente de la tienda para enviar el enlace de whatsapp con vista previa.
+$sqlLogoVistaPrevia   = ("SELECT * FROM logo WHERE cliente_id='".$DataIdCli['cliente_id']."' AND statuslogo='1' ");
+$queryLogoVistaPrevia = mysqli_query($con, $sqlLogoVistaPrevia);
+$DataLogoVistaPrevia  = mysqli_fetch_array($queryLogoVistaPrevia);
+}
+
+?>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X -UA-Compatible" content="IE=edge">
+        
+    <!--- Metas de Whatsapp para que se muestre la vista previa del enlace --->
+    <meta property="og:site_name"content="Muestralo.mx"/>
+    <meta property="og:title"content="Muestralo.mx"/>
+    <meta property="og:description"content="Pedido realizado desde Muestralo.mx"/>
+    <meta property="og:image"content="https://www.muestralo.mx/panel/<?php echo $DataLogoVistaPrevia['logo']; ?>">
+    <meta property="og:url"content="https://www.muestralo.mx/"/>
+    <meta property="og:type"content="https://www.muestralo.mx/"/>
+    <!----fin meta de whatsapp -->
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.png">
+
+    <title>Muestralo.mx :: Pedido</title>
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
+    <style type="text/css" media="screen">
+    body{
+        background-color: #f8f9f9 !important;
+    }        
+    table thead{
+        background-color: #f8f9fa !important;
+    }
+    thead tr td{
+        color: black !important;
+        font-weight: 600;
+    }
+    .zmdi-collection-pdf{
+        color: crimson;
+    }
+    .zmdi-collection-pdf:hover{
+        color: black;
+    }
+    </style>
+</head>
+<body>
+<?php 
+
+$sqlTotalSolicitud = ("SELECT 
+    p.id,
+    p.precio,
+    p.nombreProduct,
+    pt.producto_id,
+    pt.tokenCliente,
+    pt.cantidad,
+    pt.nuevoPrecioTotal
+    FROM productos as p, pedidostemporales AS pt
+    WHERE p.id=pt.producto_id AND tokenCliente='".$tokenCliente."' ");
+    $jqueryDeudaSolicitud   = mysqli_query($con, $sqlTotalSolicitud); 
+    $totalSolicitud = mysqli_num_rows($jqueryDeudaSolicitud);
+
+
+/****Total a Pagar *****/
+$SqlDeuda = ("SELECT 
+    p.id, p.precio,
+    p.nombreProduct,
+    pt.producto_id,
+    pt.tokenCliente,
+    pt.cantidad,
+    pt.fecha,
+    pt.hours,
+    SUM(p.precio * pt.cantidad) AS totalPagar 
+    FROM productos as p, pedidostemporales AS pt
+    WHERE p.id=pt.producto_id AND tokenCliente='".$tokenCliente."' ");
+    $jqueryDeuda   = mysqli_query($con, $SqlDeuda); 
+    $dataDeuda     = mysqli_fetch_array($jqueryDeuda); 
+?>
+
+<br><br>
+
+
+<?php
+//Validando que el codigo del pedido existe
+if(($totalSolicitud ==0)){ ?>
+<meta http-equiv="refresh" content="5; url=https://www.muestralo.mx/">
+<!-- Modal HTML -->
+<div id="myModal" class="modal fade">
+    <div class="modal-dialog modal-login">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title text-center">
+                    <span style="color: crimson; font-weight: 600;">Ops.!</span>
+                    <img src="assets/img/errorCart.jpg" alt="Error" style="width: 100%; width: 200px;">
+                </h2>
+
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                <div class="form-group text-center">
+                    <p>No existe ningún pedido con este Código
+                    <br> 
+                        <strong> (<?php echo substr($tokenCliente, 0, 5); ?>)</strong>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<?php } ?>
+
+
+<div class="container mt-5 mb-4" style="background-color: #fff; width: 70% !important;">
+  
+<div class="row mt-5 mb-4">
+    <div class="col-6 col-md-12 text-center">
+        <p class="mt-5" style='font-weight: 700;'>DETALLES DEL PEDIDO</p>
+        <hr>
+    </div>
+
+    <div class="col-6 col-md-12">
+       <p style='float: right;'> Código: 
+            <strong style='color: #e54c2a;'>
+              <?php echo substr($tokenCliente, 0, 5); ?>
+            </strong>
+        </p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12 col-md-12">
+        <p style="float: right; font-size: 14px">Fecha: <strong ><?php echo $dataDeuda['fecha'] . ' '. $dataDeuda['hours']; ?></strong></p>
+    </div>
+
+        <div class="table-responsive">
+        <table class="table table-hover">
+          <thead class="table-light">
+            <tr>
+                <td>Cantidad</td>
+                <td>Producto</td>
+                <td>Precio</td>
+            </tr>
+          </thead>
+          <tbody>
+        <?php 
+        while ($dataListProducts = mysqli_fetch_array($jqueryDeudaSolicitud)) { ?>
+            <tr>
+                <td><?php echo $dataListProducts['cantidad']; ?></td>
+                <td><?php echo $dataListProducts['nombreProduct']; ?></td>
+                <td><?php echo '$ '. number_format($dataListProducts['nuevoPrecioTotal'], 0,'','.'); ?></td>
+            </tr>
+        <?php } ?>
+          </tbody>
+        </table>
+        </div>
+  </div>
+
+<div class="row">                       
+ <div class="col-lg-12">
+    <hr>
+    <a target="_black" id="btnSolicitudMultiple" href="pdfPedido.php?tokenCliente=<?php echo $tokenCliente; ?>" title="Descargar Resumen de mi Pedido">
+    Descargar Pedido en PDF 
+    <i class="zmdi zmdi-collection-pdf zmdi-hc-2x"></i>
+</a>
+
+    <p id="totalPrecio" style="font-weight: 600; float: right;">Total a Pagar:
+        <strong style="color: #e54c2a; font-weight: 800; font-size: 22px;"> 
+            $ <?php echo number_format($dataDeuda['totalPagar'], 0,'','.'); ?> 
+        </strong>
+    </p>
+</div>
+</div>
+
+</div>
+
+
+<script src="assets/js/vendor/jquery-1.12.0.min.js"></script>
+<!--<script  src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>-->
+<script type="text/javascript" src="banner/dist/jquery.zoomslider.min.js"></script>
+
+<script src="assets/js/popper.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+<!--<script src="assets/js/ajax-mail.js"></script>-->
+<script src="assets/js/plugins.js"></script>
+<script src="assets/js/main.js"></script>
+<script src="assets/js/jspecial.js"></script>
+<script type="text/javascript">
+    //Levantar Ventana modal para notificar que no existe producto en el Cart    
+$( document ).ready(function() {
+    $('#myModal').modal('toggle');
+
+/*
+  setTimeout(function () {
+    location.href="https://www.muestralo.mx/"; 
+    }, 4000); 
+*/
+
+});
+</script>
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+PDF:
+<?php
+require_once('tcpdf/tcpdf.php');
+require("panel/config.php");
+$tokenCliente = $_REQUEST['tokenCliente'];
+
+$codPedido = substr($tokenCliente, 0, 5);
+
+//SQL para buscar el Logo de la empresa de dicho cliente, primero busco el di del cliente
+$sqlCli   = ("SELECT producto_id, fecha, hours FROM pedidostemporales WHERE tokenCliente='".$tokenCliente."'");
+$queryCli = mysqli_query($con, $sqlCli);
+$DataCli  = mysqli_fetch_array($queryCli);
+ 
+
+
+ob_end_clean(); //limpiar la memoria
+
+
+class MYPDF extends TCPDF
+{
+       /* function Header()
+        {
+           $this->Image('panel/'.$url_log, 5, 5, 30 );
+            $this->SetFont('Arial','B',15);
+            $this->Cell(30);
+            $this->Cell(120,10, 'Reporte De Estados',0,0,'C');
+            $this->Ln(20);
+        } */
+
+}
+
+//iniciando un nuevo pdf
+$pdf = new MYPDF(PDF_PAGE_ORIENTATION, 'mm', 'Letter', true, 'UTF-8', false);
+ 
+//establecer margenes
+$pdf->SetMargins(25, 35, 25);
+$pdf->SetHeaderMargin(20);
+$pdf->setPrintFooter(false);
+$pdf->setPrintHeader(false); //para eliminar la linea superio del pdf por defecto y tambien ej hearder
+$pdf->SetAutoPageBreak(false);  //IMPORTANTISIMO,permite bajar un elemento y eliminar el crear otra otra.
+ 
+//informacion del pdf
+$pdf->SetCreator('UrianViera');
+$pdf->SetAuthor('UrianViera');
+//$pdf->SetTitle('Factura de Pedido');
+
+
+$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+ 
+//tipo de fuente y tamanio
+$pdf->SetFont('helvetica', '', 12);
+
+ 
+//agregar pag 1
+$pdf->AddPage();
+
+$pdf->SetFont('helvetica','B',10); 
+$pdf->SetXY(150, 20);
+$pdf->Write(0, 'Código: '. $codPedido);
+$pdf->SetXY(150, 25);
+$pdf->Write(0, 'Fecha: '. $DataCli['fecha']);
+$pdf->SetXY(150, 30);
+$pdf->Write(0, 'Hora: '. $DataCli['hours']);
+
+
+$pdf->Ln(20);
+$pdf->Cell(40,26,'',0,0,'C');
+//$pdf->SetTextColor(0, 0, 0);
+$pdf->SetFont('helvetica','B',12); 
+$pdf->Cell(100,6,'RESUMEN DE MI PEDIDO',0,0,'C');
+
+
+$pdf->Ln(10);
+
+//Valido si exite el logo y lo tiene activo pues entro en esta condicion.
+if ($totalLogo >0) {
+    $logo = 'panel/'.$DataLogo['logo'];
+    $pdf->Image($logo, 25, 20, 25, '', '', '', '', false, 300, '', false, false, 0, false, false, false);
+}
+
+
+$pdf->SetFillColor(232,232,232);
+$pdf->SetFont('helvetica','B',12); //LA b ES PARA NEGRITA
+$pdf->Cell(30,6,'Cantidad',1,0,'C',1);
+$pdf->Cell(100,6,'Producto',1,0,'C',1);
+$pdf->Cell(40,6,'SubTotal',1,1,'C',1);
+
+
+$pdf->SetFont('helvetica','',10);
+
+
+$sqlTotalSolicitud = ("SELECT 
+    p.id,
+    p.precio,
+    p.nombreProduct,
+    pt.producto_id,
+    pt.tokenCliente,
+    pt.cantidad,
+    pt.nuevoPrecioTotal
+    FROM productos as p, pedidostemporales AS pt
+    WHERE p.id=pt.producto_id AND tokenCliente='".$tokenCliente."' ");
+    $jqueryDeudaSolicitud   = mysqli_query($con, $sqlTotalSolicitud); 
+
+
+/****Total a Pagar *****/
+$SqlDeuda = ("SELECT 
+    p.id, p.precio,
+    p.nombreProduct,
+    pt.producto_id,
+    pt.tokenCliente,
+    pt.cantidad,
+    SUM(p.precio * pt.cantidad) AS totalPagar 
+    FROM productos as p, pedidostemporales AS pt
+    WHERE p.id=pt.producto_id AND tokenCliente='".$tokenCliente."' ");
+    $jqueryDeuda   = mysqli_query($con, $SqlDeuda); 
+    $dataDeuda     = mysqli_fetch_array($jqueryDeuda); 
+
+
+while ($dataP = mysqli_fetch_array($jqueryDeudaSolicitud)) {
+        $pdf->Cell(30,6,($dataP['cantidad']),1,0,'C');
+        $pdf->Cell(100,6,$dataP['nombreProduct'],1,0,'C');
+        $pdf->Cell(40,6,('$ '. number_format($dataP['nuevoPrecioTotal'])),1,1,'C');
+    }
+
+
+//TOTAL A PAGAR
+$pdf->Ln(10);
+
+$pdf->Cell(40,26,'',0,0,'C');
+$pdf->SetFont('helvetica','B',12); 
+$pdf->Cell(100,6,'TOTAL A PAGAR: $ '.number_format($dataDeuda['totalPagar'], 0,'','.'),0,0,'C');
+
+/*
+$pdf->SetFont('helvetica','B',13); 
+$pdf->SetXY(135, 88);
+$pdf->SetTextColor(220, 20, 60);
+$pdf->Write(0, number_format($dataDeuda['totalPagar'], 0,'','.'));
+*/
+
+
+$pdf->Output('Resumen_Pedido_.'.date('dmy').'.pdf', 'I'); 
+//la D es para forzar la descargarnd del pdf y La I funciona como un target

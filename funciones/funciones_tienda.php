@@ -10,15 +10,16 @@ function getProductData($con)
 {
     $sqlProducts = ("
         SELECT 
-            prod . * ,
-            prod.id AS prodId,
-            fot . * ,
-            fot.id AS fotId 
+            p.id AS prodId,
+            p.nameProd,
+            p.precio,
+            f.foto1
         FROM 
-            products AS prod,
-            fotoproducts AS fot
-        WHERE 
-            prod.id = fot.products_id
+            products AS p
+        INNER JOIN
+            fotoproducts AS f
+        ON 
+            p.id = f.products_id;
     ");
     $queryProducts = mysqli_query($con, $sqlProducts);
 
@@ -35,18 +36,23 @@ function getProductData($con)
 function detalles_producto_seleccionado($con, $idProd)
 {
     $sqlDetalleProducto = ("
-	SELECT 
-		prod . * ,
-		prod.id AS prodId,
-		fot . * ,
-		fot.id AS fotId 
-	FROM 
-		products AS prod,
-		fotoproducts AS fot
-	WHERE 
-		prod.id = fot.products_id
-		AND prod.id ='" . $idProd . "'
-		LIMIT 1
+        SELECT 
+            p.id AS prodId,
+            p.nameProd,
+            p.description_Prod,
+            p.precio,
+            
+            f.foto1,
+            f.foto2,
+            f.foto3
+        FROM 
+            products AS p
+        INNER JOIN
+            fotoproducts AS f
+        ON 
+            p.id = f.products_id
+            AND p.id ='" . $idProd . "'
+            LIMIT 1;
 	");
     $queryProductoSeleccionado = mysqli_query($con, $sqlDetalleProducto);
     if (!$queryProductoSeleccionado) {
@@ -86,20 +92,24 @@ function mi_carrito_de_compra($con)
 {
     if (isset($_SESSION['tokenStoragel']) != "") {
         $sqlCarritoCompra = ("
-            SELECT 
-                prod . * ,
-                prod.id AS prodId,
-                fot . *,
-                pedtemp .* ,
-                pedtemp.id AS tempId
-            FROM 
-                products AS prod,
-                fotoproducts AS fot,
-                pedidostemporales AS pedtemp
-            WHERE 
-                prod.id = fot.products_id 
-                AND prod.id=pedtemp.producto_id
-                AND pedtemp.tokenCliente='" . $_SESSION['tokenStoragel'] . "'");
+                SELECT 
+                    p.id AS prodId,
+                    p.nameProd,
+                    p.description_Prod,
+                    p.precio,
+                    f.foto1,
+                    pt.id AS tempId,
+                    pt.producto_id,
+                    pt.cantidad,
+                    pt.tokenCliente
+                FROM 
+                    products AS p
+                INNER JOIN
+                    fotoproducts AS f ON p.id = f.products_id
+                INNER JOIN
+                    pedidostemporales AS pt ON p.id = pt.producto_id
+                WHERE 
+                    pt.tokenCliente = '" . $_SESSION['tokenStoragel'] . "'");
         $queryCarrito   = mysqli_query($con, $sqlCarritoCompra);
         if (!$queryCarrito) {
             return false;

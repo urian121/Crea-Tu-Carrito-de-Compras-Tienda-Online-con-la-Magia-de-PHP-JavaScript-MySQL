@@ -6,8 +6,6 @@ if (isset($_POST["aumentarCantida"])) {
     $precio               = $_POST['precio'];
     $tokenCliente         = $_POST['tokenCliente'];
     $cantidaProducto      = $_POST['aumentarCantida'];
-    $nuevoPrecioTotal     = (int)($cantidaProducto * $precio);
-
 
     $UpdateCant = "UPDATE pedidostemporales 
               SET cantidad ='$cantidaProducto'
@@ -40,13 +38,12 @@ if (isset($_POST["accion"]) && $_POST["accion"] == "addCar") {
     if (mysqli_num_rows($jqueryProduct) > 0) {
         $DataProducto     = mysqli_fetch_array($jqueryProduct);
         $newCantidad   = ($DataProducto['cantidad'] + 1);
-        $newCant        = ($DataProducto['nuevoPrecioTotal'] + $precio);
 
-        $UdateCantidad = ("UPDATE pedidostemporales SET cantidad='" . $newCantidad . "', nuevoPrecioTotal='" . $newCant . "' WHERE producto_id='" . $idProduct . "' AND tokenCliente='" . $tokenCliente . "' ");
+        $UdateCantidad = ("UPDATE pedidostemporales SET cantidad='" . $newCantidad . "' WHERE producto_id='" . $idProduct . "' AND tokenCliente='" . $tokenCliente . "' ");
         $resultUpdat = mysqli_query($con, $UdateCantidad);
     } else {
         //Caso 2; No existe producto agregado en la tabla de pedidos
-        $InsertProduct = ("INSERT INTO pedidostemporales (producto_id, cantidad, tokenCliente, nuevoPrecioTotal) VALUES ('$idProduct','1','$tokenCliente','$precio')");
+        $InsertProduct = ("INSERT INTO pedidostemporales (producto_id, cantidad, tokenCliente) VALUES ('$idProduct','1','$tokenCliente')");
         $result = mysqli_query($con, $InsertProduct);
     }
 

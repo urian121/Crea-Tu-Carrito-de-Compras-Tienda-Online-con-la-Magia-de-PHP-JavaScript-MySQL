@@ -10,6 +10,17 @@ $token = substr($codPedido, 0, 5);
 ob_end_clean(); //limpiar la memoria
 
 
+//SQL para buscar información adicional del pedido
+$infoPedido = "
+SELECT 
+    MAX(DATE_FORMAT(fecha, '%d de %b %Y')) AS fecha_pedido,
+    MAX(DATE_FORMAT(fecha, '%h:%i %p')) AS hora_fecha_pedido
+FROM pedidostemporales
+WHERE tokenCliente = '" . $codPedido . "' LIMIT 1";
+$queryPedido = mysqli_query($con, $infoPedido);
+$data = mysqli_fetch_array($queryPedido);
+
+
 class MYPDF extends TCPDF
 {
     public function Header()
@@ -51,12 +62,12 @@ $pdf->AddPage();
 
 //tipo de fuente y tamaño
 $pdf->SetFont('helvetica', 'B', 10);
-$pdf->SetXY(160, 20);
+$pdf->SetXY(145, 20);
 $pdf->Write(0, 'Código: ' . $token);
-$pdf->SetXY(160, 25);
-$pdf->Write(0, 'Fecha: 3443');
-$pdf->SetXY(160, 30);
-$pdf->Write(0, 'Hora: 4343');
+$pdf->SetXY(145, 25);
+$pdf->Write(0, 'Fecha: ' . $data['fecha_pedido']);
+$pdf->SetXY(145, 30);
+$pdf->Write(0, 'Hora: ' . $data['hora_fecha_pedido']);
 
 /*
 $html1 = '
@@ -80,20 +91,19 @@ $pdf->writeHTML($html1);
 */
 
 $sqlCarritoCompra = ("
-            SELECT 
-                prod . * ,
-                prod.id AS prodId,
-                fot . *,
-                pedtemp .* ,
-                pedtemp.id AS tempId
-            FROM 
-                products AS prod,
-                fotoproducts AS fot,
-                pedidostemporales AS pedtemp
-            WHERE 
-                prod.id = fot.products_id 
-                AND prod.id=pedtemp.producto_id
-                AND pedtemp.tokenCliente='" . $codPedido . "'");
+        SELECT 
+            p.nameProd,
+            p.precio,
+            pedtemp.cantidad,
+            p.precio * pedtemp.cantidad AS total_a_pagar
+        FROM 
+            products AS p
+        INNER JOIN
+            pedidostemporales AS pedtemp
+        ON 
+            p.id = pedtemp.producto_id
+        WHERE 
+            pedtemp.tokenCliente = '" . $codPedido . "'");
 $queryCarrito   = mysqli_query($con, $sqlCarritoCompra);
 
 
@@ -119,20 +129,20 @@ hr.hr-1 {
 <br><br>
 <table style="font-size:13px; padding:5px 10px; border: 1px solid #666;" align="center">
     <tr style="background-color: #cccccc;">
-        <th style="border-right: 0.2px solid #666;">Cantidad</th>
-        <th style="border-right: 0.2px solid #666;">Producto</th>
-        <th style="border-right: 0.2px solid #666;">SubTotal</th>
+    <th style="border-right: 0.2px solid #666;">Producto</th>
+    <th style="border-right: 0.2px solid #666;">Cantidad</th>
+    <th style="border-right: 0.2px solid #666;">SubTotal</th>
     </tr>';
 $total = 0;
 while ($dataP = mysqli_fetch_array($queryCarrito)) {
     $precioFormateado = number_format($dataP['precio'], 0, '', '.');
     $html .= '
     <tr>
-        <td style="border-right: 1px solid #666; border: 0.2px solid #666;">' . $dataP['cantidadDisponible'] . '</td>
-        <td style="border-right: 1px solid #666; border: 0.2px solid #666;">' . $dataP['nameProd'] . '</td>
-        <td style="border-right: 1px solid #666; border: 0.2px solid #666; text-align: center;">$ ' . $precioFormateado . '</td>
+    <td style="border-right: 1px solid #666; border: 0.2px solid #666;">' . $dataP['nameProd'] . '</td>
+    <td style="border-right: 1px solid #666; border: 0.2px solid #666;">' . $dataP['cantidad'] . '</td>
+    <td style="border-right: 1px solid #666; border: 0.2px solid #666; text-align: center;">$ ' . $precioFormateado . '</td>
     </tr>';
-    $total += $precioFormateado;
+    $total += $dataP['total_a_pagar'];
 }
 $html .= '
 <tr>
@@ -147,3 +157,4 @@ $pdf->writeHTML($html);
 
 //Close and output PDF document
 $pdf->Output('Solicitud_pedido_' . date('d_m_Y_h_i_A') . '.pdf', 'I');
+//la D es para forzar la descargarnd del pdf y La I funciona como un target

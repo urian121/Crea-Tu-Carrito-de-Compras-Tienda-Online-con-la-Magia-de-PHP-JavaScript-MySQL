@@ -77,7 +77,7 @@
 									<?php echo $dataProduct['nameProd']; ?>
 								</h2>
 								<p>
-									<?php echo $dataProduct['descrip_Prod']; ?>
+									<?php echo $dataProduct['description_Prod']; ?>
 								</p>
 							</div>
 

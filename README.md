@@ -18,4 +18,8 @@
 
 ![](https://raw.githubusercontent.com/urian121/imagenes-proyectos-github/master/tienda-online-urian-viera.png)
 
+### Generando pedido en PDF
+
+![](https://raw.githubusercontent.com/urian121/imagenes-proyectos-github/master/pdf-reporte-pedido-tienda-online-urian-viera.PNG)
+
 ## No olvides SUSCRIBIRTE 👍

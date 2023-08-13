@@ -22,8 +22,10 @@
             <span>cargando...</span>
         </div>
     </div>
+
     <div class="super_container  mt-5 pt-5">
         <?php
+        include('modalEliminarProduct.php');
         include('funciones/funciones_tienda.php');
         include('header.php');
         ?>
@@ -73,14 +75,12 @@
                                                 <?php echo number_format($dataMiProd['precio'], 0, '', '.'); ?>
                                             </td>
                                             <td class="text-right">
-                                                <span class="btn btn-sm btn-danger" onclick="borrar_producto('<?php echo $dataMiProd['tempId']; ?>')">
+                                                <a href="#" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#eliminarPrdoct" onclick="mostrarModal('<?php echo $dataMiProd['tempId']; ?>')">
                                                     <i class="bi bi-trash3"></i>
-                                                </span>
+                                                </a>
                                             </td>
                                         </tr>
-                                        <?php
-                                        include('modalEliminarProduct.php'); ?>
-                                    <?php } ?>
+                                    <?php  } ?>
                                     <tr style="background-color: #fff !important;">
                                         <td colspan="4"></td>
                                         <td style="color:#fff; background-color: #ff4545 !important;">
@@ -105,7 +105,7 @@
                                 </a>
                             </div>
                             <div class="col-md-6">
-                                <button class="btn btn-block btn-success">
+                                <button class="btn btn-block btn-success" onclick="solictarPedido('<?php echo $_SESSION['tokenStoragel']; ?>')">
                                     Solicitar Pedido
                                     <i class="bi bi-arrow-right-circle"></i>
                                 </button>

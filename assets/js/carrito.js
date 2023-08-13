@@ -121,15 +121,29 @@ function disminuir_cantidad(idProd, precio) {
 }
 
 // Función para mostrar el modal de confirmación para borrar el producto
-function borrar_producto(idProduct) {
-  var modal = document.getElementById("confirm-delete" + idProduct);
-  modal.style.display = "block";
+function mostrarModal(idProduct) {
+  let btnBorrarProducto = document.querySelector("#btnYesEliminarProduct");
+  btnBorrarProducto.setAttribute(
+    "onclick",
+    `yesEliminarProducto(${idProduct})`
+  );
 }
 
-// Función para cerrar el modal de confirmación
-function salir_modal(tempId) {
-  var modal = document.getElementById("confirm-delete" + tempId);
-  modal.style.display = "none";
+function yesEliminarProducto(idProduct) {
+  let dataString = `accion=borrarproductoModal&idProduct=${idProduct}`;
+  axios
+    .post(ruta, dataString)
+    .then(function (response) {
+      if (response.data == 0) {
+        document.querySelector(`#resp${idProduct}`).remove();
+        $("#eliminarPrdoct").modal("hide");
+      } else {
+        return response.data;
+      }
+    })
+    .catch(function (error) {
+      console.error("Error:", error);
+    });
 }
 
 function formatearCantidad(cantidad) {
@@ -141,7 +155,6 @@ function formatearCantidad(cantidad) {
 }
 
 function verificarResumenPedido(nameTokenProducto) {
-  console.log("llegueee*");
   let dataString = `accion=verificarResumenPedido&tokenCliente=${nameTokenProducto}`;
   axios
     .post(ruta, dataString)
@@ -159,3 +172,18 @@ function verificarResumenPedido(nameTokenProducto) {
       console.error("Error:", error);
     });
 }
+
+/**
+ * Funcion que recibe la solicitud para gestionar el pedido
+ */
+const solictarPedido = (codPedido) => {
+  const whatsappAPI = "https://api.whatsapp.com/send?phone=";
+  const phoneNumber = "+573219674320";
+
+  const link = `http://localhost/Crea-Tu-Carrito-de-Compras-Tienda-Online-con-la-Magia-de-PHP-JavaScript-MySQL/pdfPedido.php?codPedido=${codPedido}`;
+  const message = `¡Hola! Me interesa el siguiente pedido: ${link}`;
+  const whatsappURL = `${whatsappAPI}${phoneNumber}&text=${message}`;
+
+  // Abrir la conversación de WhatsApp en una nueva ventana o pestaña
+  window.open(whatsappURL, "_blank");
+};

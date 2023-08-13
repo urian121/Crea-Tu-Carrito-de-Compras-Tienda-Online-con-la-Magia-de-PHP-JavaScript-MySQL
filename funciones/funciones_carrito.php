@@ -105,3 +105,11 @@ if (isset($_POST["accion"]) && $_POST["accion"] == "verificarResumenPedido") {
         echo 0;
     }
 }
+
+/**
+ * Borrar producto del carrito
+ */
+if (isset($_POST["accion"]) && $_POST["accion"] == "borrarproductoModal") {
+    $DeleteRegistro = ("DELETE FROM pedidostemporales WHERE id= '" . $_POST["idProduct"] . "' ");
+    mysqli_query($con, $DeleteRegistro);
+}

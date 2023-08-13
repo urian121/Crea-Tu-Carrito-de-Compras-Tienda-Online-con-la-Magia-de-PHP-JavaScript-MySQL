@@ -142,18 +142,6 @@ function iconoCarrito($con)
     }
 }
 
-
-/**
- * Borrar producto del carrito
- */
-function borrar_producto_carrito($con, $idRegistros)
-{
-    $DeleteRegistro = ("DELETE FROM pedidostemporales WHERE id= '{$idRegistros}' ");
-    mysqli_query($con, $DeleteRegistro);
-}
-
-
-
 function totalAcumuladoDeuda($con)
 {
     if (isset($_SESSION['tokenStoragel']) != "") {

@@ -111,8 +111,6 @@ $queryCarrito   = mysqli_query($con, $sqlCarritoCompra);
 $pdf->Ln(20);
 $html = '
 <h1 align="center">RESUMEN DE MI PEDIDO <hr class="hr-1"></h1>
-
-
 <style>
 hr {
   background-color: #ccc;
@@ -138,9 +136,9 @@ while ($dataP = mysqli_fetch_array($queryCarrito)) {
     $precioFormateado = number_format($dataP['precio'], 0, '', '.');
     $html .= '
     <tr>
-    <td style="border-right: 1px solid #666; border: 0.2px solid #666;">' . $dataP['nameProd'] . '</td>
-    <td style="border-right: 1px solid #666; border: 0.2px solid #666;">' . $dataP['cantidad'] . '</td>
-    <td style="border-right: 1px solid #666; border: 0.2px solid #666; text-align: center;">$ ' . $precioFormateado . '</td>
+    <td style="font-size:9px; border-right: 1px solid #666; border: 0.2px solid #666;">' . $dataP['nameProd'] . '</td>
+    <td style="font-size:9px; border-right: 1px solid #666; border: 0.2px solid #666;">' . $dataP['cantidad'] . '</td>
+    <td style="font-size:9px; border-right: 1px solid #666; border: 0.2px solid #666; text-align: center;">$ ' . $precioFormateado . '</td>
     </tr>';
     $total += $dataP['total_a_pagar'];
 }

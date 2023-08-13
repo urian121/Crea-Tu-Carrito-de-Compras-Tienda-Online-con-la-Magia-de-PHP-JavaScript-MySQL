@@ -1,8 +1,6 @@
-<div class="modal fade" id="confirm-delete<?php echo $dataMiProd['tempId']; ?>" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <form action="deleteProduct.php" method="POST">
-                <input type="text" name="id" value="<?php echo $dataMiProd['tempId']; ?>" hidden>
+    <div class="modal fade" id="eliminarPrdoct" tabindex="-1" role="dialog" aria-labelledby="eliminarPrdoct" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
                 <div class="modal-header text-center">
                     <h4 class="modal-title text-center">Eliminar Producto</h4>
                 </div>
@@ -13,11 +11,9 @@
                 </div>
 
                 <div class="modal-body text-center">
-                    <button type="submit" class="btn btn-primary" style="color:#fff; padding: 0px 50px; border-radius: 20px; margin: 0px 30px;" data-dismiss="modal">Sí</button>
-                    <a class="btn btn-danger" onclick="salir_modal('<?php echo $dataMiProd['tempId']; ?>')" style="color:#fff; padding: 0px 50px; border-radius: 20px;" data-dismiss="modal">No
-                    </a>
+                    <button id="btnYesEliminarProduct" onclick="yesEliminarProducto(this)" class="btn btn-primary yesDelete" data-dismiss="modal">Sí</button>
+                    <button class="btn btn-danger noDelete" data-dismiss="modal">No</button>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
-</div>

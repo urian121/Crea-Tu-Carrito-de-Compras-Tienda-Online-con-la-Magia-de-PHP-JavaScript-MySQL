@@ -1792,3 +1792,16 @@ input:valid::-webkit-input-placeholder {
 .mi_logo:hover {
   transform: scale(1.2);
 }
+.yesDelete {
+  margin: 0px 30px;
+  color: #fff;
+  padding: 0px 50px;
+  border-radius: 20px;
+  margin: 0px 30px;
+}
+
+.noDelete {
+  color: #fff;
+  padding: 0px 50px;
+  border-radius: 20px;
+}

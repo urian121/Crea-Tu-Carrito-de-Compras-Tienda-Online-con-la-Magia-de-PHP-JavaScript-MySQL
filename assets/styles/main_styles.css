@@ -1614,7 +1614,6 @@ hr {
   display: -ms-inline-flexbox;
   display: -webkit-inline-flex;
   display: inline-flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
   width: auto;
@@ -1804,4 +1803,13 @@ input:valid::-webkit-input-placeholder {
   color: #fff;
   padding: 0px 50px;
   border-radius: 20px;
+}
+
+.bi-arrow-right-circle {
+  padding: 5px 15px;
+  font-size: 20px;
+}
+.bi-arrow-left-circle {
+  padding: 5px 15px;
+  font-size: 20px;
 }

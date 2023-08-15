@@ -43,6 +43,10 @@
 					<div class="section_title">
 						<h2>La salud es única para cada mascota</h2>
 					</div>
+					<?php
+					// 	echo $_SESSION['tokenStoragel'];
+					?>
+
 				</div>
 			</div>
 			<?php
@@ -71,7 +75,10 @@
 									$ <?php echo number_format($dataProduct['precio'], 0, '', '.'); ?>
 								</p>
 							</div>
-							<a href="detallesArticulo.php?idProd=<?php echo $dataProduct["prodId"]; ?>" class="red_button btn_puntos" title="Redimir mis Puntos">Ver Producto</a>
+							<a href="detallesArticulo.php?idProd=<?php echo $dataProduct["prodId"]; ?>" class="red_button btn_puntos" title="Ver <?php echo $dataProduct['nameProd']; ?>">
+								Ver Producto
+								<i class="bi bi-arrow-right-circle"></i>
+							</a>
 						</div>
 					</div>
 

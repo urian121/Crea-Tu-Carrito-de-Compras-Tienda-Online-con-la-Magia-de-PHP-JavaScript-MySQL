@@ -78,7 +78,8 @@ function validando_carrito()
                     </div>
                 </div>
                 <div class="col-lg-12 text-center mt-5 mb-5">
-                    <a href="./" class="red_button btn_raza">Volver a la Tienda</a>
+                    <a href="./" class="red_button btn_raza" style="padding: 5px 20px;">
+                    <i class="bi bi-arrow-left-circle"></i>  Volver a la Tienda</a>
                 </div>
             </div>';
     }

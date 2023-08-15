@@ -102,16 +102,21 @@ function disminuir_cantidad(idProd, precio) {
 
     if ("miProducto" in localStorage) {
       let nameTokenProducto = localStorage.getItem("miProducto"); //Obtener el token generado ya LocalStorage
-      let dataString = `accion=disminuirCantida&idProd=${idProd}&precio=${precio}&tokenCliente=${nameTokenProducto}&disminuirCantida=${nuevaCantidad}`;
+      let dataString = `accion=disminuirCantidad&idProd=${idProd}&precio=${precio}&tokenCliente=${nameTokenProducto}&cantidad_Disminuida=${nuevaCantidad}`;
 
       axios
         .post(ruta, dataString)
         .then(function (response) {
-          document.querySelector(
-            "#totalPuntos"
-          ).textContent = `$ ${formatearCantidad(response.data)}`;
-
-          verificarResumenPedido(nameTokenProducto);
+          console.log(response.data);
+          if (response.data != "") {
+            document.querySelector(
+              "#totalPuntos"
+            ).textContent = `$ ${formatearCantidad(response.data)}`;
+          } else {
+            localStorage.removeItem("miProducto");
+            localStorage.clear();
+            window.location.href = window.location.href;
+          }
         })
         .catch(function (error) {
           console.error("Error:", error);
@@ -154,25 +159,6 @@ function formatearCantidad(cantidad) {
   return formattedTotal;
 }
 
-function verificarResumenPedido(nameTokenProducto) {
-  let dataString = `accion=verificarResumenPedido&tokenCliente=${nameTokenProducto}`;
-  axios
-    .post(ruta, dataString)
-    .then(function (response) {
-      if (response.data == 0) {
-        localStorage.removeItem("miProducto");
-        //localStorage.clear();
-
-        window.location.href = window.location.href;
-      } else {
-        return response.data;
-      }
-    })
-    .catch(function (error) {
-      console.error("Error:", error);
-    });
-}
-
 /**
  * Funcion que recibe la solicitud para gestionar el pedido
  */
@@ -180,7 +166,7 @@ const solictarPedido = (codPedido) => {
   const whatsappAPI = "https://api.whatsapp.com/send?phone=";
   const phoneNumber = "+573219674320";
 
-  const link = `http://localhost/Crea-Tu-Carrito-de-Compras-Tienda-Online-con-la-Magia-de-PHP-JavaScript-MySQL/pdfPedido.php?codPedido=${codPedido}`;
+  const link = `http://localhost/tienda-online/pdfPedido.php?codPedido=${codPedido}`;
   const message = `¡Hola! Me interesa el siguiente pedido: ${link}`;
   const whatsappURL = `${whatsappAPI}${phoneNumber}&text=${message}`;
 

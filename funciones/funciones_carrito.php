@@ -57,19 +57,20 @@ if (isset($_POST["accion"]) && $_POST["accion"] == "addCar") {
 /**
  * Disminuir cantidad de mi carrito de compra
  */
-if (isset($_POST["accion"]) && $_POST["accion"] == "disminuirCantida") {
+if (isset($_POST["accion"]) && $_POST["accion"] == "disminuirCantidad") {
     $_SESSION['tokenStoragel']  = $_POST['tokenCliente'];
-    $idProd                     = $_POST['idProd'];
-    $precio                     = $_POST['precio'];
-    $tokenCliente               = $_POST['tokenCliente'];
-    $disminuirCantida           = $_POST['disminuirCantida'];
+    // Evitar posibles ataques de inyección SQL escapando las variables
+    $idProd                     = mysqli_real_escape_string($con, $_POST['idProd']);
+    $precio                     = mysqli_real_escape_string($con, $_POST['precio']);
+    $tokenCliente               = mysqli_real_escape_string($con, $_POST['tokenCliente']);
+    $cantidad_Disminuida        = mysqli_real_escape_string($con, $_POST['cantidad_Disminuida']);
 
-    if ($disminuirCantida == 0) {
+    if ($cantidad_Disminuida == 0) {
         $DeleteRegistro = ("DELETE FROM pedidostemporales WHERE tokenCliente='{$tokenCliente}' AND id='" . $idProd . "' ");
         mysqli_query($con, $DeleteRegistro);
     } else {
         $UpdateCant = ("UPDATE pedidostemporales 
-        SET cantidad ='$disminuirCantida'
+        SET cantidad ='$cantidad_Disminuida'
 	WHERE tokenCliente='" . $tokenCliente . "' 
         AND id='" . $idProd . "' ");
         $result = mysqli_query($con, $UpdateCant);
@@ -94,15 +95,21 @@ function totalAccionAumentarDisminuir($con, $tokenCliente)
 
 /**
  * Funcion que esta al pendiente de verificar si hay pedidos activos por el usuario en cuestión
+ * IMPORTANTE: REVISAR ESTA FUNCION QUE NO HACE NADA
  */
-if (isset($_POST["accion"]) && $_POST["accion"] == "verificarResumenPedido") {
-    $tokenCliente               = $_POST['tokenCliente'];
-    $ConsultarProduct = ("SELECT * FROM pedidostemporales WHERE tokenCliente='" . $tokenCliente . "' ");
-    $jqueryProduct    = mysqli_query($con, $ConsultarProduct);
-    if (mysqli_num_rows($jqueryProduct) > 0) {
-        totalAccionAumentarDisminuir($con, $tokenCliente);
+function totalProductosClienteSeleccionados($con)
+{
+    if (isset($_SESSION['tokenStoragel']) != "") {
+        $tokenCliente               = $_POST['tokenCliente'];
+        $ConsultarProduct = ("SELECT * FROM pedidostemporales WHERE tokenCliente='" . $tokenCliente . "' ");
+        $jqueryProduct    = mysqli_query($con, $ConsultarProduct);
+        if (mysqli_num_rows($jqueryProduct) > 0) {
+            echo 1;
+        } else {
+            echo 0;
+        }
     } else {
-        echo 0;
+        return 0;
     }
 }
 

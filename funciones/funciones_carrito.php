@@ -17,7 +17,6 @@ if (isset($_POST["aumentarCantidad"])) {
               AND id='$idProd'";
     $result = mysqli_query($con, $UpdateCant);
 
-
     $responseData = array(
         'estado' => 'OK',
         'totalPagar' => totalAccionAumentarDisminuir($con, $tokenCliente)

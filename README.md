@@ -28,21 +28,21 @@
     PHP (compatible con las versiones  7 y 8)
     MySQL 5 o superior
     phpMyAdmin (opcional)
-    Puedes usar un todo en uno como XAMPP, WAMPP u otro.
+    Puedes usar un todo en uno como XAMPP, WAMPP, LARAGON u otro.
 
 ### Instrucciones para descarga 🔧
 
     Descarga el proyecto
     Copia la carpeta en el htdocs o www del servidor web.
-    Importa el archivo escuela.sql a MySQL
-    Cambia los datos de conexión en el archivo conexión.php
-    Ingresa desde un navegador a http://localhost/nombre_de_tu_carpeta
+    Importa el archivo bd_tienda_online.sql a MySQL
+    Cambia los datos de conexión en el archivo config.php
+    Ingresa desde un navegador a http://localhost/nombre_de_la_carpeta_del_proyecto
 
 ### Expresiones de Gratitud 🎁
 
-    Comenta a otros sobre este proyecto 📢
-    Invita una cerveza 🍺 o un café ☕
-    Paypal iamdeveloper86@gmail.com
-    Da las gracias públicamente 🤓.
+    ¡Comparte este emocionante proyecto con los demás! 📢
+    Apóyanos con una cerveza 🍺 o un reconfortante café ☕
+    Contribuye a través de PayPal: iamdeveloper86@gmail.com
+    Expresa tus agradecimientos en público 🤓 ¡Te lo agradeceremos enormemente!
 
-## No olvides SUSCRIBIRTE 👍
+## ¡No dejes pasar la oportunidad de SUSCRIBIRTE! 👍

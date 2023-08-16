@@ -62,14 +62,15 @@ function aumentar_cantidad(idProd, precio) {
 
   if ("miProducto" in localStorage) {
     let nameTokenProducto = localStorage.getItem("miProducto"); //Obtener el token generado ya LocalStorage
-    let dataString = `idProd=${idProd}&precio=${precio}&tokenCliente=${nameTokenProducto}&aumentarCantida=${nuevaCantidad}`;
+    let dataString = `idProd=${idProd}&precio=${precio}&tokenCliente=${nameTokenProducto}&aumentarCantidad=${nuevaCantidad}`;
 
     axios
       .post(ruta, dataString)
       .then(function (response) {
+        let total = parseInt(response.data.totalPagar);
         document.querySelector(
           "#totalPuntos"
-        ).textContent = `$ ${formatearCantidad(response.data)}`;
+        ).textContent = `$ ${formatearCantidad(total)}`;
       })
       .catch(function (error) {
         console.error("Error:", error);
@@ -107,15 +108,14 @@ function disminuir_cantidad(idProd, precio) {
       axios
         .post(ruta, dataString)
         .then(function (response) {
-          console.log(response.data);
-          if (response.data != "") {
+          if (response.data.totalProductos != 0) {
+            let totalP = parseInt(response.data.totalPagar);
             document.querySelector(
               "#totalPuntos"
-            ).textContent = `$ ${formatearCantidad(response.data)}`;
+            ).textContent = `$ ${formatearCantidad(totalP)}`;
+            return;
           } else {
-            localStorage.removeItem("miProducto");
-            localStorage.clear();
-            window.location.href = window.location.href;
+            clearCart();
           }
         })
         .catch(function (error) {
@@ -154,7 +154,7 @@ function yesEliminarProducto(idProduct) {
 function formatearCantidad(cantidad) {
   let formattedTotal = cantidad.toLocaleString("es-ES", {
     minimumFractionDigits: 0,
-    maximumFractionDigits: 2,
+    maximumFractionDigits: 0,
   });
   return formattedTotal;
 }
@@ -173,3 +173,21 @@ const solictarPedido = (codPedido) => {
   // Abrir la conversación de WhatsApp en una nueva ventana o pestaña
   window.open(whatsappURL, "_blank");
 };
+
+/**
+ * Funcion para limpiar todo mi carrito
+ */
+function clearCart() {
+  let dataString = `accion=limpiarTodoElCarrito`;
+  axios
+    .post(ruta, dataString)
+    .then(function (response) {
+      if (response.data.mensaje == 1) {
+        localStorage.removeItem("miProducto");
+        window.location.href = window.location.href;
+      }
+    })
+    .catch(function (error) {
+      console.error("Error:", error);
+    });
+}

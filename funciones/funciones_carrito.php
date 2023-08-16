@@ -1,11 +1,15 @@
 <?php
 session_start();
 include('../config/config.php');
-if (isset($_POST["aumentarCantida"])) {
+// Establecer las cabeceras para indicar que la respuesta es en formato JSON
+header('Content-Type: application/json');
+
+
+if (isset($_POST["aumentarCantidad"])) {
     $idProd               = $_POST['idProd'];
     $precio               = $_POST['precio'];
     $tokenCliente         = $_POST['tokenCliente'];
-    $cantidaProducto      = $_POST['aumentarCantida'];
+    $cantidaProducto      = $_POST['aumentarCantidad'];
 
     $UpdateCant = "UPDATE pedidostemporales 
               SET cantidad ='$cantidaProducto'
@@ -14,10 +18,12 @@ if (isset($_POST["aumentarCantida"])) {
     $result = mysqli_query($con, $UpdateCant);
 
 
-    /**
-     * Actualizando el total a pagar
-     */
-    totalAccionAumentarDisminuir($con, $tokenCliente);
+    $responseData = array(
+        'estado' => 'OK',
+        'totalPagar' => totalAccionAumentarDisminuir($con, $tokenCliente)
+    );
+    // Enviar la respuesta JSON
+    echo json_encode($responseData);
 }
 
 
@@ -58,6 +64,7 @@ if (isset($_POST["accion"]) && $_POST["accion"] == "addCar") {
  * Disminuir cantidad de mi carrito de compra
  */
 if (isset($_POST["accion"]) && $_POST["accion"] == "disminuirCantidad") {
+
     $_SESSION['tokenStoragel']  = $_POST['tokenCliente'];
     // Evitar posibles ataques de inyección SQL escapando las variables
     $idProd                     = mysqli_real_escape_string($con, $_POST['idProd']);
@@ -66,18 +73,29 @@ if (isset($_POST["accion"]) && $_POST["accion"] == "disminuirCantidad") {
     $cantidad_Disminuida        = mysqli_real_escape_string($con, $_POST['cantidad_Disminuida']);
 
     if ($cantidad_Disminuida == 0) {
-        $DeleteRegistro = ("DELETE FROM pedidostemporales WHERE tokenCliente='{$tokenCliente}' AND id='" . $idProd . "' ");
+        $DeleteRegistro = ("DELETE FROM pedidostemporales WHERE tokenCliente='" . $tokenCliente . "' AND id='" . $idProd . "' ");
         mysqli_query($con, $DeleteRegistro);
+        $responseData = array(
+            'totalProductos' => totalProductosSeleccionados($con, $tokenCliente),
+            'totalPagar' => totalAccionAumentarDisminuir($con, $tokenCliente),
+            'estado' => 'OK'
+        );
     } else {
         $UpdateCant = ("UPDATE pedidostemporales 
-        SET cantidad ='$cantidad_Disminuida'
-	WHERE tokenCliente='" . $tokenCliente . "' 
-        AND id='" . $idProd . "' ");
+    SET cantidad ='$cantidad_Disminuida'
+    WHERE tokenCliente='" . $tokenCliente . "' 
+    AND id='" . $idProd . "' ");
         $result = mysqli_query($con, $UpdateCant);
+
+        $responseData = array(
+            'totalProductos' => totalProductosSeleccionados($con, $tokenCliente),
+            'totalPagar' => totalAccionAumentarDisminuir($con, $tokenCliente),
+            'estado' => 'OK'
+        );
     }
 
-    //Total deuda
-    totalAccionAumentarDisminuir($con, $tokenCliente);
+    // Enviar la respuesta JSON
+    echo json_encode($responseData);
 }
 
 function totalAccionAumentarDisminuir($con, $tokenCliente)
@@ -90,24 +108,18 @@ function totalAccionAumentarDisminuir($con, $tokenCliente)
         WHERE pt.tokenCliente = '" .  $tokenCliente . "'";
     $jqueryDeuda = mysqli_query($con, $SqlDeudaTotal);
     $dataDeuda = mysqli_fetch_array($jqueryDeuda);
-    echo $dataDeuda['totalPagar'];
+    return $dataDeuda['totalPagar'];
 }
 
 /**
  * Funcion que esta al pendiente de verificar si hay pedidos activos por el usuario en cuestión
- * IMPORTANTE: REVISAR ESTA FUNCION QUE NO HACE NADA
  */
-function totalProductosClienteSeleccionados($con)
+function totalProductosSeleccionados($con, $tokenCliente)
 {
-    if (isset($_SESSION['tokenStoragel']) != "") {
-        $tokenCliente               = $_POST['tokenCliente'];
-        $ConsultarProduct = ("SELECT * FROM pedidostemporales WHERE tokenCliente='" . $tokenCliente . "' ");
-        $jqueryProduct    = mysqli_query($con, $ConsultarProduct);
-        if (mysqli_num_rows($jqueryProduct) > 0) {
-            echo 1;
-        } else {
-            echo 0;
-        }
+    $ConsultarProduct = ("SELECT * FROM pedidostemporales WHERE tokenCliente='" . $tokenCliente . "' ");
+    $jqueryProduct    = mysqli_query($con, $ConsultarProduct);
+    if (mysqli_num_rows($jqueryProduct) > 0) {
+        return mysqli_num_rows($jqueryProduct);
     } else {
         return 0;
     }
@@ -119,4 +131,21 @@ function totalProductosClienteSeleccionados($con)
 if (isset($_POST["accion"]) && $_POST["accion"] == "borrarproductoModal") {
     $DeleteRegistro = ("DELETE FROM pedidostemporales WHERE id= '" . $_POST["idProduct"] . "' ");
     mysqli_query($con, $DeleteRegistro);
+}
+
+
+/**
+ * funcion limpiar carrito
+ */
+if (isset($_POST["accion"]) && $_POST["accion"] == "limpiarTodoElCarrito") {
+    // Cerrar todas las variables de sesión
+    session_unset();
+
+    // Destruir la sesión
+    session_destroy();
+
+    // Cerrar una variable de sesión específica
+    // unset($_SESSION['tokenStoragel']);
+
+    echo json_encode(['mensaje' => 1]);
 }

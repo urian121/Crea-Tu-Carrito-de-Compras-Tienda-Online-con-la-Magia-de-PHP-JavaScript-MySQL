@@ -37,16 +37,11 @@
 				</div>
 			</div>
 
-
 			<div class="row align-items-center">
 				<div class="col-lg-12 text-center mt-5">
 					<div class="section_title">
 						<h2>La salud es única para cada mascota</h2>
 					</div>
-					<?php
-					// 	echo $_SESSION['tokenStoragel'];
-					?>
-
 				</div>
 			</div>
 			<?php

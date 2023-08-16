@@ -134,16 +134,26 @@ function mostrarModal(idProduct) {
   );
 }
 
+/**
+ * Eliminar productos desde la ventana MOdal
+ */
 function yesEliminarProducto(idProduct) {
-  let dataString = `accion=borrarproductoModal&idProduct=${idProduct}`;
+  let nameTokenProducto = localStorage.getItem("miProducto"); //Obtener el token generado ya LocalStorage
+  let dataString = `accion=borrarproductoModal&idProduct=${idProduct}&tokenCliente=${nameTokenProducto}`;
   axios
     .post(ruta, dataString)
     .then(function (response) {
-      if (response.data == 0) {
+      let totalProd = parseInt(response.data.totalProductos);
+      let totalP = parseInt(response.data.totalPagar);
+      if (totalProd > 0) {
         document.querySelector(`#resp${idProduct}`).remove();
         $("#eliminarPrdoct").modal("hide");
+
+        document.querySelector(
+          "#totalPuntos"
+        ).textContent = `$ ${formatearCantidad(totalP)}`;
       } else {
-        return response.data;
+        clearCart();
       }
     })
     .catch(function (error) {
@@ -151,6 +161,9 @@ function yesEliminarProducto(idProduct) {
     });
 }
 
+/**
+ * Funcion para formatear la cantidad total a pagar
+ */
 function formatearCantidad(cantidad) {
   let formattedTotal = cantidad.toLocaleString("es-ES", {
     minimumFractionDigits: 0,

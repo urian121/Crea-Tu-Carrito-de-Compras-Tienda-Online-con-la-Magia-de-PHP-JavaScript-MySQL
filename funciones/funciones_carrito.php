@@ -97,6 +97,27 @@ if (isset($_POST["accion"]) && $_POST["accion"] == "disminuirCantidad") {
     echo json_encode($responseData);
 }
 
+/**
+ * Borrar producto del carrito
+ */
+if (isset($_POST["accion"]) && $_POST["accion"] == "borrarproductoModal") {
+    $tokenCliente   = $_POST['tokenCliente'];
+    $DeleteRegistro = ("DELETE FROM pedidostemporales WHERE id= '" . $_POST["idProduct"] . "' ");
+    mysqli_query($con, $DeleteRegistro);
+
+    $responseData = array(
+        'totalProductos' => totalProductosSeleccionados($con, $tokenCliente),
+        'totalPagar' => totalAccionAumentarDisminuir($con, $tokenCliente),
+        'estado' => 'OK'
+    );
+
+    echo json_encode($responseData);
+}
+
+
+/**
+ * funcion que retorna el total a pagar
+ */
 function totalAccionAumentarDisminuir($con, $tokenCliente)
 {
     $SqlDeudaTotal = "
@@ -124,27 +145,13 @@ function totalProductosSeleccionados($con, $tokenCliente)
     }
 }
 
-/**
- * Borrar producto del carrito
- */
-if (isset($_POST["accion"]) && $_POST["accion"] == "borrarproductoModal") {
-    $DeleteRegistro = ("DELETE FROM pedidostemporales WHERE id= '" . $_POST["idProduct"] . "' ");
-    mysqli_query($con, $DeleteRegistro);
-}
-
 
 /**
- * funcion limpiar carrito
+ * funcion limpiar carrito de compra
  */
 if (isset($_POST["accion"]) && $_POST["accion"] == "limpiarTodoElCarrito") {
-    // Cerrar todas las variables de sesión
-    session_unset();
-
-    // Destruir la sesión
-    session_destroy();
-
-    // Cerrar una variable de sesión específica
-    // unset($_SESSION['tokenStoragel']);
+    unset($_SESSION['tokenStoragel']); // Elimina la variable de sesión específica
+    session_destroy();  // Destruir la sesión
 
     echo json_encode(['mensaje' => 1]);
 }

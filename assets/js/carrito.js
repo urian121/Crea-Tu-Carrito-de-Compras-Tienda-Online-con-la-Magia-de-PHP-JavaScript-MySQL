@@ -142,6 +142,9 @@ function yesEliminarProducto(idProduct) {
     .post(ruta, dataString)
     .then(function (response) {
       if (response.data.totalProductos != 0) {
+        document.querySelector(".checkout_items").innerHTML =
+          response.data.totalProductos;
+
         document.querySelector(`#resp${idProduct}`).remove();
         $("#eliminarPrdoct").modal("hide");
 

@@ -109,13 +109,27 @@ if (isset($_POST["accion"]) && $_POST["accion"] == "borrarproductoModal") {
 
     $respData = array(
         'totalProductos' => totalProductosSeleccionados($con, $nameTokenProducto),
+        'totalProductoSeleccionados' => totalProductosBD($con, $nameTokenProducto),
         'totalPagar' => totalAccionAumentarDisminuir($con, $nameTokenProducto),
         'estado' => 'OK'
     );
     echo json_encode($respData);
 }
 
-
+/**
+ * Total productos en mi carrito de compra
+ */
+function totalProductosBD($con, $nameTokenProducto)
+{
+    $sqlTotalProduct = "SELECT SUM(cantidad) AS totalProd FROM pedidostemporales WHERE tokenCliente='" . $nameTokenProducto . "' GROUP BY tokenCliente";
+    $jqueryTotalProduct = mysqli_query($con, $sqlTotalProduct);
+    if ($jqueryTotalProduct) {
+        $dataTotalProducto = mysqli_fetch_array($jqueryTotalProduct);
+        return  $dataTotalProducto["totalProd"];
+    } else {
+        return 0;
+    }
+}
 
 function totalAccionAumentarDisminuir($con, $tokenCliente)
 {

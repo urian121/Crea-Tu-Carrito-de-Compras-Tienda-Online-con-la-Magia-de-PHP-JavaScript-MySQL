@@ -23,13 +23,10 @@ $data = mysqli_fetch_array($queryPedido);
 
 class MYPDF extends TCPDF
 {
-    public function Header()
-    {
-        $image_file = dirname(__FILE__) . '/assets/images/logo.png';
-        $this->Image($image_file, 10, 20, 15, '', 'PNG', '', 'T', false, 300, '', false, false, 0, false, false, false);
-        $this->setFont('helvetica', 'B', 20);
-        $this->Cell(0, 15, '', 0, false, 'C', 0, '', 0, false, 'M', 'M');
-    }
+    public function Header() {
+		$image_file ='assets/images/logo.jpg';
+		$this->Image($image_file, 10, 20, 15, '', 'JPG', '', 'T', false, 300, '', false, false, 0, false, false, false);
+	}
 
     public function Footer()
     {
